@@ -12,7 +12,7 @@ class Home extends StatelessWidget {
         Expanded(
           child: ListView(
             children: [
-              Text("precious")
+              Text("Home"),
             ],
           ),
         ),
