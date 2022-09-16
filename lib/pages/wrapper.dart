@@ -1,3 +1,8 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_field, prefer_final_fields
+
+import 'package:classmate/pages/Calendar.dart';
+import 'package:classmate/pages/Home.dart';
+import 'package:classmate/pages/Settings.dart';
 import 'package:flutter/material.dart';
 
 class Wrapper extends StatefulWidget {
@@ -8,16 +13,53 @@ class Wrapper extends StatefulWidget {
 }
 
 class _WrapperState extends State<Wrapper> {
+  int _nav_position = 0;
+  void _navigate(int index) {
+    setState(() {
+      _nav_position = index;
+    });
+  }
+
+  List _pages = [
+    Home(),
+    Calendar(),
+    Settings(),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Column(
-        children: [
-          // top
-
-          // body
-
-          // bottom navigation
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Classmate"),
+        elevation: 0.0,
+        backgroundColor: Colors.grey[500],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+        child: _pages[_nav_position],
+      ),
+      bottomNavigationBar: BottomNavigationBar(
+        onTap: _navigate,
+        currentIndex: _nav_position,
+        selectedItemColor: Colors.black,
+        type: BottomNavigationBarType.fixed,
+        items: [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.home_rounded),
+            label: "",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.calendar_month_rounded,
+            ),
+            label: "",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(
+              Icons.settings,
+            ),
+            label: "",
+          ),
         ],
       ),
     );
