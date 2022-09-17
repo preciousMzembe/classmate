@@ -14,7 +14,7 @@ class Home extends StatelessWidget {
       children: [
         Expanded(
           child: ListView.separated(
-            itemCount: 2,
+            itemCount: 1,
             separatorBuilder: (BuildContext context, int index) {
               return SizedBox(
                 height: 20,
@@ -82,7 +82,7 @@ class Home extends StatelessWidget {
               height: 20,
             ),
 
-            // sub tasks
+            // sub task
             Column(
               children: [
                 ClipRRect(
@@ -96,6 +96,53 @@ class Home extends StatelessWidget {
                           // name
                           child: Text(
                             "BMC",
+                            style: TextStyle(fontSize: 12, color: main_color),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        // left buttons
+                        Row(
+                          children: [
+                            ClipRRect(
+                              borderRadius: BorderRadius.circular(15),
+                              child: Container(
+                                width: 15,
+                                height: 15,
+                                color: main_color,
+                              ),
+                            ),
+                            Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              color: main_color,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            ),
+
+            // sub task
+            Column(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+                    color: Colors.white,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          // name
+                          child: Text(
+                            "User Interview",
                             style: TextStyle(fontSize: 12, color: main_color),
                           ),
                         ),
