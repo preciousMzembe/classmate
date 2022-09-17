@@ -20,6 +20,7 @@ class _WrapperState extends State<Wrapper> {
     });
   }
 
+  // list of main pages
   List _pages = [
     Home(),
     Calendar(),
@@ -29,15 +30,18 @@ class _WrapperState extends State<Wrapper> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // app bar
       appBar: AppBar(
         title: Text("Classmate"),
         elevation: 0.0,
-        backgroundColor: Colors.grey[500],
+        backgroundColor: Colors.grey[800],
       ),
+      // body
       body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: _pages[_nav_position],
       ),
+      // bottom navigation bar
       bottomNavigationBar: BottomNavigationBar(
         onTap: _navigate,
         currentIndex: _nav_position,
