@@ -65,16 +65,9 @@ class Home extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    "ICT Application Development",
+                    "ICT APP DEVELOPMENT",
                     style: TextStyle(color: Colors.black),
                   ),
-                ),
-                SizedBox(
-                  width: 10,
-                ),
-                Text(
-                  "03 October",
-                  style: TextStyle(fontSize: 12),
                 ),
               ],
             ),
