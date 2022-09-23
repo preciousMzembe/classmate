@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
   await Hive.initFlutter();
-  var box = Hive.openBox("classmatebox");
+  await Hive.openBox("classmatebox");
   runApp(const MyApp());
 }
 

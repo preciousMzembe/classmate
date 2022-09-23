@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_field, prefer_final_fields, non_constant_identifier_names
 
-import 'package:classmate/pages/Calendar.dart';
-import 'package:classmate/pages/Home.dart';
-import 'package:classmate/pages/Settings.dart';
+import 'package:classmate/pages/calendar.dart';
+import 'package:classmate/pages/home.dart';
+import 'package:classmate/pages/settings.dart';
 import 'package:flutter/material.dart';
 
 class Wrapper extends StatefulWidget {
