@@ -1,8 +1,8 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, unused_field, prefer_final_fields, non_constant_identifier_names
 
-import 'package:classmate/pages/calendar.dart';
-import 'package:classmate/pages/home.dart';
-import 'package:classmate/pages/settings.dart';
+import 'package:classmate/pages/Calendar.dart';
+import 'package:classmate/pages/Home.dart';
+import 'package:classmate/pages/Timetable.dart';
 import 'package:flutter/material.dart';
 
 class Wrapper extends StatefulWidget {
@@ -24,7 +24,7 @@ class _WrapperState extends State<Wrapper> {
   List _pages = [
     Home(),
     Calendar(),
-    Settings(),
+    Timetable()
   ];
 
   @override
@@ -37,10 +37,7 @@ class _WrapperState extends State<Wrapper> {
         backgroundColor: Colors.grey[800],
       ),
       // body
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-        child: _pages[_nav_position],
-      ),
+      body: _pages[_nav_position],
       // bottom navigation bar
       bottomNavigationBar: BottomNavigationBar(
         onTap: _navigate,
@@ -60,7 +57,7 @@ class _WrapperState extends State<Wrapper> {
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.settings,
+              Icons.grid_on_rounded,
             ),
             label: "",
           ),

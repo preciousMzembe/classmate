@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors, non_constant_identifier_names, must_be_immutable, unused_field
 
-import 'package:classmate/pages/add_subject.dart';
+import 'package:classmate/pages/sub_pages/Subject.dart';
+import 'package:classmate/pages/sub_pages/add_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -13,10 +14,10 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final _classmatebox = Hive.box("classmatebox");
-
   List _subjects = [];
 
   var main_color = Colors.grey[500];
+  final TextEditingController _subject = TextEditingController();
 
   // get subjects and tasks
   void getSubjects() async {
@@ -36,6 +37,8 @@ class _HomeState extends State<Home> {
     });
   }
 
+  bool isChecked = true;
+
   @override
   void initState() {
     getSubjects();
@@ -44,151 +47,268 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // add subject
+    void addSubjectSheet() {
+      Future future = showModalBottomSheet(
+        backgroundColor: Colors.transparent,
+        context: context,
+        builder: (context) {
+          return AddSubject();
+        },
+      );
+      future.then((value) => getSubjects());
+    }
 
     // subject templet
     Widget subject(var subject) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(12),
-        child: Container(
-          color: main_color,
-          padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-          child: Column(
-            children: [
-              // subject title and date
-              Row(
-                children: [
-                  Expanded(
-                    child: Text(
-                      "${subject['name']}",
-                      style: TextStyle(color: Colors.black),
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-
-              // sub task
-              // Column(
-              //   children: [
-              //     ClipRRect(
-              //       borderRadius: BorderRadius.circular(12),
-              //       child: Container(
-              //         padding:
-              //             EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-              //         color: Colors.white,
-              //         child: Row(
-              //           children: [
-              //             Expanded(
-              //               // name
-              //               child: Text(
-              //                 "BMC",
-              //                 style: TextStyle(fontSize: 12, color: main_color),
-              //               ),
-              //             ),
-              //             SizedBox(
-              //               width: 10,
-              //             ),
-              //             // left buttons
-              //             Row(
-              //               children: [
-              //                 ClipRRect(
-              //                   borderRadius: BorderRadius.circular(15),
-              //                   child: Container(
-              //                     width: 15,
-              //                     height: 15,
-              //                     color: main_color,
-              //                   ),
-              //                 ),
-              //                 Icon(
-              //                   Icons.arrow_forward_ios_rounded,
-              //                   color: main_color,
-              //                 ),
-              //               ],
-              //             ),
-              //           ],
-              //         ),
-              //       ),
-              //     ),
-              //     SizedBox(
-              //       height: 20,
-              //     ),
-              //   ],
-              // ),
-
-              // add task button
-              GestureDetector(
-                onTap: () async {},
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    padding: EdgeInsets.all(10),
-                    color: Colors.white,
-                    child: Center(
-                      child: Icon(
-                        Icons.add_circle_outline_rounded,
-                        color: main_color,
-                      ),
-                    ),
+      return GestureDetector(
+        onTap: () async {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => Subject(),
+            ),
+          );
+        },
+        
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: Container(
+            color: main_color,
+            padding: EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(""),
+                ),
+                Icon(
+                  Icons.my_library_books_rounded,
+                  size: 40,
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Text(
+                  "${subject['name']}".toUpperCase(),
+                  textAlign: TextAlign.center,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 2,
+                  softWrap: true,
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-            ],
+                Expanded(
+                  child: Text(""),
+                ),
+              ],
+            ),
           ),
         ),
       );
     }
 
-    return Column(
-      children: [
-        Expanded(
-          child: ListView.separated(
-            itemCount: _subjects.length,
-            separatorBuilder: (BuildContext context, int index) {
-              return SizedBox(
-                height: 20,
-              );
-            },
-            itemBuilder: (BuildContext context, int index) {
-              return subject(_subjects[index]);
-            },
-          ),
-        ),
-
-        // add subject button
-        SizedBox(
-          height: 10,
-        ),
-        GestureDetector(
-          onTap: () async {
-            await Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const AddSubject()),
-            );
-            getSubjects();
-          },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(12),
-            child: Container(
-              padding: EdgeInsets.all(10),
-              color: main_color,
-              child: Center(
-                child: Icon(
-                  Icons.add_circle_outline_rounded,
-                  color: Colors.black,
+    return Scaffold(
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.fromLTRB(20, 10, 20, 100),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "My Subjects",
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
                 ),
               ),
-            ),
+              SizedBox(
+                height: 10,
+              ),
+
+              // List of all courses
+              GridView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  childAspectRatio: 1.0,
+                  mainAxisSpacing: 20.0,
+                  crossAxisSpacing: 20.0,
+                ),
+                itemCount: _subjects.length,
+                itemBuilder: (context, index) {
+                  return subject(_subjects[index]);
+                },
+              ),
+              SizedBox(
+                height: 20,
+              ),
+
+              Text(
+                "Today",
+                overflow: TextOverflow.ellipsis,
+                maxLines: 2,
+                softWrap: true,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 16,
+                ),
+              ),
+              SizedBox(
+                height: 10,
+              ),
+
+              // activity list
+              Row(
+                children: [
+                  // mark
+                  Column(
+                    children: [
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              width: 15,
+                              height: 15,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              width: 10,
+                              height: 10,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: 3,
+                        height: 40,
+                        color: Colors.grey,
+                      ),
+                    ],
+                  ),
+
+                  // activity details
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "ICT APPLICATION",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: true,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // time or check box
+                  Center(
+                    child: Text("11:00am"),
+                  ),
+                ],
+              ),
+
+              Row(
+                children: [
+                  // mark
+                  Column(
+                    children: [
+                      Stack(
+                        alignment: Alignment.center,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              width: 15,
+                              height: 15,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(20),
+                            child: Container(
+                              width: 10,
+                              height: 10,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: 3,
+                        height: 40,
+                        color: Colors.grey,
+                      ),
+                    ],
+                  ),
+
+                  // activity details
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "ICT APPLICATION",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: true,
+                        ),
+                        Text(
+                          "Submit Assignment",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                          softWrap: true,
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  // time or check box
+                  Center(
+                    child: Checkbox(
+                      checkColor: Colors.white,
+                      activeColor: Colors.grey,
+                      value: isChecked,
+                      onChanged: (bool? value) {
+                        setState(() {
+                          isChecked = value!;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-        SizedBox(
-          height: 10,
+      ),
+
+      // add subject button
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          addSubjectSheet();
+        },
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
         ),
-      ],
+      ),
     );
   }
 }

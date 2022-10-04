@@ -18,68 +18,73 @@ class _CalendarState extends State<Calendar> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        // calendar
-        TableCalendar(
-          focusedDay: _focusedDay,
-          firstDay: DateTime(2020),
-          lastDay: DateTime(2050),
-          calendarFormat: _calendarFormat,
-          onFormatChanged: (CalendarFormat format) {
-            setState(() {
-              _calendarFormat = format;
-            });
-          },
-          calendarStyle: CalendarStyle(
-            isTodayHighlighted: true,
-            selectedDecoration: BoxDecoration(
-              color: main_color,
-              shape: BoxShape.circle,
-            ),
-            todayDecoration: BoxDecoration(
-              color: Colors.grey[400],
-              shape: BoxShape.circle,
-            ),
-          ),
-          headerStyle: HeaderStyle(
-            leftChevronVisible: false,
-            rightChevronVisible: false,
-            headerPadding: EdgeInsets.fromLTRB(0, 0, 0, 15),
-            titleTextStyle: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            ),
-          ),
-          selectedDayPredicate: (day) {
-            return isSameDay(_selectedDay, day);
-          },
-          onDaySelected: (selectedDay, focusedDay) {
-            // search activities here
-
-            setState(
-              () {
-                _selectedDay = selectedDay;
-                _focusedDay = focusedDay;
+    return Scaffold(
+      body: Padding(
+        padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // calendar
+            TableCalendar(
+              focusedDay: _focusedDay,
+              firstDay: DateTime(2020),
+              lastDay: DateTime(2050),
+              calendarFormat: _calendarFormat,
+              onFormatChanged: (CalendarFormat format) {
+                setState(() {
+                  _calendarFormat = format;
+                });
               },
-            );
-          },
+              calendarStyle: CalendarStyle(
+                isTodayHighlighted: true,
+                selectedDecoration: BoxDecoration(
+                  color: main_color,
+                  shape: BoxShape.circle,
+                ),
+                todayDecoration: BoxDecoration(
+                  color: Colors.grey[400],
+                  shape: BoxShape.circle,
+                ),
+              ),
+              headerStyle: HeaderStyle(
+                leftChevronVisible: false,
+                rightChevronVisible: false,
+                headerPadding: EdgeInsets.fromLTRB(0, 0, 0, 15),
+                titleTextStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              selectedDayPredicate: (day) {
+                return isSameDay(_selectedDay, day);
+              },
+              onDaySelected: (selectedDay, focusedDay) {
+                // search activities here
+          
+                setState(
+                  () {
+                    _selectedDay = selectedDay;
+                    _focusedDay = focusedDay;
+                  },
+                );
+              },
+            ),
+            Divider(
+              height: 10,
+            ),
+          
+            // day activity details
+            Expanded(
+              child: Center(
+                  child: Text(
+                "nothing planned for this day",
+                style: TextStyle(
+                    fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
+              )),
+            ),
+          ],
         ),
-        Divider(
-          height: 10,
-        ),
-
-        // day activity details
-        Expanded(
-          child: Center(
-              child: Text(
-            "nothing planned for this day",
-            style: TextStyle(
-                fontSize: 16, fontWeight: FontWeight.bold, color: Colors.black),
-          )),
-        ),
-      ],
+      ),
     );
   }
 }
