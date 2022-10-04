@@ -5,7 +5,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:intl/intl.dart';
 
 class AddTask extends StatefulWidget {
-  const AddTask({super.key});
+  final int id;
+  const AddTask({super.key, required this.id});
 
   @override
   State<AddTask> createState() => _AddSubjectState();
@@ -13,9 +14,23 @@ class AddTask extends StatefulWidget {
 
 class _AddSubjectState extends State<AddTask> {
   final _classmatebox = Hive.box("classmatebox");
+  var subjectInfo = {};
+
+  void getSubjectInfo() {
+    setState(() {
+      subjectInfo = _classmatebox.get(widget.id);
+    });
+  }
+
   var main_color = Colors.grey[500];
-  final TextEditingController _subject = TextEditingController();
+  final TextEditingController _task = TextEditingController();
   final TextEditingController _date = TextEditingController();
+
+  @override
+  void initState() {
+    getSubjectInfo();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +60,7 @@ class _AddSubjectState extends State<AddTask> {
             height: 20,
           ),
           TextFormField(
-            controller: _subject,
+            controller: _task,
             decoration: InputDecoration(
               hintText: "Type a task name",
               filled: true,
@@ -88,7 +103,7 @@ class _AddSubjectState extends State<AddTask> {
                 lastDate: DateTime(2025),
               );
 
-              if(pickedDate != null){
+              if (pickedDate != null) {
                 setState(() {
                   _date.text = DateFormat("yyyy/MM/dd").format(pickedDate);
                 });
@@ -102,52 +117,36 @@ class _AddSubjectState extends State<AddTask> {
           ),
           GestureDetector(
             onTap: () async {
-              // var subject = _subject.text.trim();
-              // if (subject != "") {
-              //   var condition = false;
-              //   var boxdata = _classmatebox.toMap();
-              //   for (var element in boxdata.values) {
-              //     if (element['name'] == subject &&
-              //         element['title'] == "subject") {
-              //       condition = true;
-              //     }
-              //   }
-              //   if (condition) {
-              //     // subject already added
-              //     showDialog(
-              //       context: context,
-              //       builder: (context) {
-              //         return AlertDialog(
-              //           content: Text(
-              //             "Subject already exists",
-              //             textAlign: TextAlign.center,
-              //           ),
-              //         );
-              //       },
-              //     );
-              //   } else {
-              //     // add task
-              //     var data = {
-              //       "title": "subject",
-              //       "name": subject,
-              //     };
-              //     await _classmatebox.add(data);
-              //     setState(() {
-              //       _subject.text = "";
-              //     });
-              //     showDialog(
-              //       context: context,
-              //       builder: (context) {
-              //         return AlertDialog(
-              //           content: Text(
-              //             "Subject added successfully",
-              //             textAlign: TextAlign.center,
-              //           ),
-              //         );
-              //       },
-              //     );
-              //   }
-              // }
+              var subject = subjectInfo['name'];
+              var task = _task.text.trim();
+              var date = _date.text.trim();
+
+              if (subject != "" && task != "" && date != "") {
+                var data = {
+                  "title": "task",
+                  "name": task,
+                  "subject": subject,
+                  "date": date,
+                };
+
+                await _classmatebox.add(data);
+                setState(() {
+                  _task.text = "";
+                  _date.text = "";
+                });
+
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Text(
+                        "Task added successfully",
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  },
+                );
+              }
             },
             child: ClipRRect(
               borderRadius: BorderRadius.circular(12),

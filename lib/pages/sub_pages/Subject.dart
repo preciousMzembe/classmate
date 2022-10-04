@@ -1,16 +1,53 @@
-// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:classmate/pages/sub_pages/add_task.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class Subject extends StatefulWidget {
-  const Subject({super.key});
+  final int id;
+  const Subject({super.key, required this.id});
 
   @override
   State<Subject> createState() => _SubjectState();
 }
 
 class _SubjectState extends State<Subject> {
+  final _classmatebox = Hive.box("classmatebox");
+
+  var subjectInfo = {};
+  void getSubjectInfo() {
+    setState(() {
+      subjectInfo = _classmatebox.get(widget.id);
+    });
+  }
+
+  List _tasks = [];
+  void getTasks() {
+    var tempData = [];
+    var boxdata = _classmatebox.toMap();
+    for (var key in boxdata.keys) {
+      if (boxdata[key]['title'] == "task" &&
+          boxdata[key]['subject'] == subjectInfo['name']) {
+        var task = {
+          "id": key,
+          "name": boxdata[key]['name'],
+        };
+        tempData.add(task);
+      }
+    }
+    setState(() {
+      _tasks = tempData;
+    });
+  }
+
+  @override
+  void initState() {
+    getSubjectInfo();
+    getTasks();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     void addTaskSheet() {
@@ -18,17 +55,20 @@ class _SubjectState extends State<Subject> {
         backgroundColor: Colors.transparent,
         context: context,
         builder: (context) {
-          return AddTask();
+          return AddTask(
+            id: widget.id,
+          );
         },
       );
-      // future.then((value) => getSubjects());
+      future.then((value) => getTasks());
     }
 
-    void onSelected(value) {
+    void onSelected(value) async {
       if (value == 0) {
         print("edit");
       } else {
-        print("delete");
+        await _classmatebox.delete(widget.id);
+        Navigator.pop(context);
       }
     }
 
@@ -36,7 +76,7 @@ class _SubjectState extends State<Subject> {
       // app bar
       appBar: AppBar(
         title: Text(
-          "Subject name",
+          "${subjectInfo['name']}".toUpperCase(),
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
           softWrap: true,
@@ -63,25 +103,41 @@ class _SubjectState extends State<Subject> {
       ),
 
       // body
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 10, 20, 100),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Tasks",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(20, 10, 20, 0),
+            child: Text(
+              "Tasks",
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
-              Divider(
-                height: 20,
-              ),
-            ],
+            ),
           ),
-        ),
+          Divider(
+            height: 30,
+          ),
+
+          // list of tasks
+          Expanded(
+            child: ListView.separated(
+              itemCount: _tasks.length,
+              separatorBuilder: (BuildContext context, int index) =>
+                  SizedBox(height: 20,),
+              itemBuilder: (BuildContext context, int index) {
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Container(
+                    padding: EdgeInsets.all(20),
+                    color: Colors.grey,
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
 
       // add subject button

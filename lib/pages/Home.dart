@@ -63,11 +63,13 @@ class _HomeState extends State<Home> {
     Widget subject(var subject) {
       return GestureDetector(
         onTap: () async {
-          Navigator.of(context).push(
+          await Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => Subject(),
+              builder: (context) => Subject(id: subject["id"],),
             ),
           );
+
+          getSubjects();
         },
         
         child: ClipRRect(
@@ -126,7 +128,7 @@ class _HomeState extends State<Home> {
                 height: 10,
               ),
 
-              // List of all courses
+              // List of all subjects
               GridView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
