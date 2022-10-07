@@ -48,15 +48,23 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     // add subject
-    void addSubjectSheet() {
-      Future future = showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (context) {
-          return AddSubject();
-        },
+    void addSubjectSheet() async {
+      // Future future = showModalBottomSheet(
+      //   backgroundColor: Colors.transparent,
+      //   context: context,
+      //   builder: (context) {
+      //     return AddSubject();
+      //   },
+      // );
+      // future.then((value) => getSubjects());
+
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => AddSubject(),
+        ),
       );
-      future.then((value) => getSubjects());
+
+      getSubjects();
     }
 
     // subject templet
@@ -65,13 +73,14 @@ class _HomeState extends State<Home> {
         onTap: () async {
           await Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => Subject(id: subject["id"],),
+              builder: (context) => Subject(
+                id: subject["id"],
+              ),
             ),
           );
 
           getSubjects();
         },
-        
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: Container(
