@@ -105,7 +105,7 @@ class _AddSubjectState extends State<AddTask> {
 
               if (pickedDate != null) {
                 setState(() {
-                  _date.text = DateFormat("yyyy/MM/dd").format(pickedDate);
+                  _date.text = DateFormat("yyyy-MM-dd").format(pickedDate);
                 });
               }
             },
@@ -127,6 +127,7 @@ class _AddSubjectState extends State<AddTask> {
                   "name": task,
                   "subject": subject,
                   "date": date,
+                  "done": false,
                 };
 
                 await _classmatebox.add(data);

@@ -49,14 +49,6 @@ class _HomeState extends State<Home> {
   Widget build(BuildContext context) {
     // add subject
     void addSubjectSheet() async {
-      // Future future = showModalBottomSheet(
-      //   backgroundColor: Colors.transparent,
-      //   context: context,
-      //   builder: (context) {
-      //     return AddSubject();
-      //   },
-      // );
-      // future.then((value) => getSubjects());
 
       await Navigator.of(context).push(
         MaterialPageRoute(
