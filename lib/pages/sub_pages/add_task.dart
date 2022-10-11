@@ -34,134 +34,132 @@ class _AddSubjectState extends State<AddTask> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        border: Border.all(
-          color: Colors.white,
-        ),
-        borderRadius: BorderRadius.only(
-          topLeft: Radius.circular(20),
-          topRight: Radius.circular(20),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Add Task"),
+        elevation: 0.0,
+        backgroundColor: Colors.grey[800],
       ),
-      // height: 300,
-      padding: EdgeInsets.all(20),
-      child: Column(
-        children: [
-          Text(
-            "Add Task",
-            style: TextStyle(
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          SizedBox(
-            height: 20,
-          ),
-          TextFormField(
-            controller: _task,
-            decoration: InputDecoration(
-              hintText: "Type a task name",
-              filled: true,
-              fillColor: Colors.grey[200],
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.transparent,
+      body: Padding(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Text(
+                "Add Task",
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-          ),
-
-          SizedBox(
-            height: 20,
-          ),
-
-          TextFormField(
-            controller: _date,
-            decoration: InputDecoration(
-              hintText: "Type date",
-              filled: true,
-              fillColor: Colors.grey[200],
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.transparent),
+              SizedBox(
+                height: 20,
               ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: Colors.transparent,
+              TextFormField(
+                controller: _task,
+                decoration: InputDecoration(
+                  hintText: "Type a task name",
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                    ),
+                  ),
                 ),
               ),
-            ),
-            onTap: () async {
-              DateTime? pickedDate = await showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime(2025),
-              );
-
-              if (pickedDate != null) {
-                setState(() {
-                  _date.text = DateFormat("yyyy-MM-dd").format(pickedDate);
-                });
-              }
-            },
-          ),
-
-          // add button
-          SizedBox(
-            height: 20,
-          ),
-          GestureDetector(
-            onTap: () async {
-              var subject = subjectInfo['name'];
-              var task = _task.text.trim();
-              var date = _date.text.trim();
-
-              if (subject != "" && task != "" && date != "") {
-                var data = {
-                  "title": "task",
-                  "name": task,
-                  "subject": subject,
-                  "date": date,
-                  "done": false,
-                };
-
-                await _classmatebox.add(data);
-                setState(() {
-                  _task.text = "";
-                  _date.text = "";
-                });
-
-                showDialog(
-                  context: context,
-                  builder: (context) {
-                    return AlertDialog(
-                      content: Text(
-                        "Task added successfully",
-                        textAlign: TextAlign.center,
-                      ),
+          
+              SizedBox(
+                height: 20,
+              ),
+          
+              TextFormField(
+                controller: _date,
+                decoration: InputDecoration(
+                  hintText: "Type date",
+                  filled: true,
+                  fillColor: Colors.grey[200],
+                  enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                    ),
+                  ),
+                ),
+                onTap: () async {
+                  DateTime? pickedDate = await showDatePicker(
+                    context: context,
+                    initialDate: DateTime.now(),
+                    firstDate: DateTime.now(),
+                    lastDate: DateTime(2025),
+                  );
+          
+                  if (pickedDate != null) {
+                    setState(() {
+                      _date.text = DateFormat("yyyy-MM-dd").format(pickedDate);
+                    });
+                  }
+                },
+              ),
+          
+              // add button
+              SizedBox(
+                height: 20,
+              ),
+              GestureDetector(
+                onTap: () async {
+                  var subject = subjectInfo['name'];
+                  var task = _task.text.trim();
+                  var date = _date.text.trim();
+          
+                  if (subject != "" && task != "" && date != "") {
+                    var data = {
+                      "title": "task",
+                      "name": task,
+                      "subject": subject,
+                      "date": date,
+                      "done": false,
+                    };
+          
+                    await _classmatebox.add(data);
+                    setState(() {
+                      _task.text = "";
+                      _date.text = "";
+                    });
+          
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          content: Text(
+                            "Task added successfully",
+                            textAlign: TextAlign.center,
+                          ),
+                        );
+                      },
                     );
-                  },
-                );
-              }
-            },
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(12),
-              child: Container(
-                height: 50,
-                padding: EdgeInsets.all(10),
-                color: main_color,
-                child: Center(
-                  child: Text("Save"),
+                  }
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    height: 50,
+                    padding: EdgeInsets.all(10),
+                    color: main_color,
+                    child: Center(
+                      child: Text("Save"),
+                    ),
+                  ),
                 ),
               ),
-            ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

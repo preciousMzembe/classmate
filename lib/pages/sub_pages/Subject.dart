@@ -50,17 +50,16 @@ class _SubjectState extends State<Subject> {
 
   @override
   Widget build(BuildContext context) {
-    void addTaskSheet() {
-      Future future = showModalBottomSheet(
-        backgroundColor: Colors.transparent,
-        context: context,
-        builder: (context) {
-          return AddTask(
+    void addTaskSheet() async {
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => AddTask(
             id: widget.id,
-          );
-        },
+          ),
+        ),
       );
-      future.then((value) => getTasks());
+
+      getTasks();
     }
 
     void onSelected(value) async {
@@ -124,8 +123,9 @@ class _SubjectState extends State<Subject> {
           Expanded(
             child: ListView.separated(
               itemCount: _tasks.length,
-              separatorBuilder: (BuildContext context, int index) =>
-                  SizedBox(height: 20,),
+              separatorBuilder: (BuildContext context, int index) => SizedBox(
+                height: 20,
+              ),
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
