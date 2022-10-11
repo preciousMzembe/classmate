@@ -16,7 +16,7 @@ class _HomeState extends State<Home> {
   final _classmatebox = Hive.box("classmatebox");
   List _subjects = [];
 
-  var main_color = Colors.grey[500];
+  var main_color = Color(0xff75ccb9);
   final TextEditingController _subject = TextEditingController();
 
   // get subjects and tasks
@@ -236,7 +236,7 @@ class _HomeState extends State<Home> {
                             child: Container(
                               width: 15,
                               height: 15,
-                              color: Colors.grey,
+                              color: Color(0xff75ccb9),
                             ),
                           ),
                           ClipRRect(
@@ -244,7 +244,7 @@ class _HomeState extends State<Home> {
                             child: Container(
                               width: 10,
                               height: 10,
-                              color: Colors.white,
+                              color: Color(0xff75ccb9),
                             ),
                           ),
                         ],
@@ -252,7 +252,7 @@ class _HomeState extends State<Home> {
                       Container(
                         width: 3,
                         height: 40,
-                        color: Colors.grey,
+                        color: Color(0xff75ccb9),
                       ),
                     ],
                   ),
@@ -309,7 +309,7 @@ class _HomeState extends State<Home> {
         },
         child: Icon(
           Icons.add,
-          color: Colors.white,
+          color: Color(0xffdbffff),
         ),
       ),
     );
