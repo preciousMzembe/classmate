@@ -26,7 +26,7 @@ class _AddSubjectState extends State<AddSubject> {
   late String _place;
   late String _professor;
   late String _classTime;
-  List<String> _dayList = [];
+  List<String> _dayList= [];
 
   void addSubjectDB() async {
     if (_formKey.currentState!.validate()) {
@@ -179,7 +179,15 @@ class _AddSubjectState extends State<AddSubject> {
         onTap: (){
           setState(() {
             _buttonColor[index] = !_buttonColor[index];
-            _dayList.add(text);
+            if(_buttonColor[index]){
+              if(!_dayList.contains(text)){
+                _dayList.add(text);
+              }
+            }else{
+              if(_dayList.contains(text)){
+                _dayList.remove(text);
+              }
+            }
           });
         },
         child: ClipRRect(

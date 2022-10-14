@@ -101,6 +101,7 @@ class GridBuilderState extends State<GridBuilder> {
               ),
             );
           }
+          // boxdata.keys.firstWhere((k) => boxdata[k] == )
           // shows subject
           for (var element in boxdata.values) {
             if (element['classTime'] == _timeList[row.toInt() -1] &&
