@@ -1,6 +1,7 @@
 import 'package:classmate/pages/intro_page_1.dart';
 import 'package:classmate/pages/intro_page_2.dart';
 import 'package:classmate/pages/intro_page_3.dart';
+import 'package:classmate/pages/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -59,11 +60,11 @@ class _TutorialState extends State<Tutorial> {
                 onLastPage
                     ? GestureDetector(
                   onTap: () {
-                    Navigator.push(
+                    Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                         builder: (context) {
-                          return HomePage();
+                          return Wrapper();
                         },
                       ),
                     );

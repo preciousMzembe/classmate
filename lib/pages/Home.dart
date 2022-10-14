@@ -148,155 +148,156 @@ class _HomeState extends State<Home> {
                 height: 20,
               ),
 
-              Text(
-                "Today",
-                overflow: TextOverflow.ellipsis,
-                maxLines: 2,
-                softWrap: true,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-              ),
-              SizedBox(
-                height: 10,
-              ),
-
-              // activity list
-              Row(
-                children: [
-                  // mark
-                  Column(
-                    children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Container(
-                              width: 15,
-                              height: 15,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Container(
-                              width: 10,
-                              height: 10,
-                              color: Colors.white,
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        width: 3,
-                        height: 40,
-                        color: Colors.grey,
-                      ),
-                    ],
-                  ),
-
-                  // activity details
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "ICT APPLICATION",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          softWrap: true,
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // time or check box
-                  Center(
-                    child: Text("11:00am"),
-                  ),
-                ],
-              ),
-
-              Row(
-                children: [
-                  // mark
-                  Column(
-                    children: [
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Container(
-                              width: 15,
-                              height: 15,
-                              color: Color(0xff75ccb9),
-                            ),
-                          ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20),
-                            child: Container(
-                              width: 10,
-                              height: 10,
-                              color: Color(0xff75ccb9),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        width: 3,
-                        height: 40,
-                        color: Color(0xff75ccb9),
-                      ),
-                    ],
-                  ),
-
-                  // activity details
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "ICT APPLICATION",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          softWrap: true,
-                        ),
-                        Text(
-                          "Submit Assignment",
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          softWrap: true,
-                        ),
-                      ],
-                    ),
-                  ),
-
-                  // time or check box
-                  Center(
-                    child: Checkbox(
-                      checkColor: Colors.white,
-                      activeColor: Colors.grey,
-                      value: isChecked,
-                      onChanged: (bool? value) {
-                        setState(() {
-                          isChecked = value!;
-                        });
-                      },
-                    ),
-                  ),
-                ],
-              ),
+              // Text(
+              //   "Today",
+              //   overflow: TextOverflow.ellipsis,
+              //   maxLines: 2,
+              //   softWrap: true,
+              //   style: TextStyle(
+              //     fontWeight: FontWeight.bold,
+              //     fontSize: 16,
+              //   ),
+              // ),
+              // SizedBox(
+              //   height: 10,
+              // ),
+              //
+              // // activity list
+              // Row(
+              //   children: [
+              //     // mark
+              //     Column(
+              //       children: [
+              //         Stack(
+              //           alignment: Alignment.center,
+              //           children: [
+              //             ClipRRect(
+              //               borderRadius: BorderRadius.circular(20),
+              //               child: Container(
+              //                 width: 15,
+              //                 height: 15,
+              //                 color: Colors.grey,
+              //               ),
+              //             ),
+              //             ClipRRect(
+              //               borderRadius: BorderRadius.circular(20),
+              //               child: Container(
+              //                 width: 10,
+              //                 height: 10,
+              //                 color: Colors.white,
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //         Container(
+              //           width: 3,
+              //           height: 40,
+              //           color: Colors.grey,
+              //         ),
+              //       ],
+              //     ),
+              //
+              //     // activity details
+              //     SizedBox(
+              //       width: 5,
+              //     ),
+              //     Expanded(
+              //       child: Column(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           Text(
+              //             "ICT APPLICATION",
+              //             overflow: TextOverflow.ellipsis,
+              //             maxLines: 1,
+              //             softWrap: true,
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //
+              //     // time or check box
+              //     Center(
+              //       child: Text("11:00am"),
+              //     ),
+              //   ],
+              // ),
+              //
+              // Row(
+              //   children: [
+              //     // mark
+              //     Column(
+              //       children: [
+              //         Stack(
+              //           alignment: Alignment.center,
+              //           children: [
+              //             ClipRRect(
+              //               borderRadius: BorderRadius.circular(20),
+              //               child: Container(
+              //                 width: 15,
+              //                 height: 15,
+              //                 color: Color(0xff75ccb9),
+              //               ),
+              //             ),
+              //             ClipRRect(
+              //               borderRadius: BorderRadius.circular(20),
+              //               child: Container(
+              //                 width: 10,
+              //                 height: 10,
+              //                 color: Color(0xff75ccb9),
+              //               ),
+              //             ),
+              //           ],
+              //         ),
+              //         Container(
+              //           width: 3,
+              //           height: 40,
+              //           color: Color(0xff75ccb9),
+              //         ),
+              //       ],
+              //     ),
+              //
+              //     // activity details
+              //     SizedBox(
+              //       width: 5,
+              //     ),
+              //     Expanded(
+              //       child: Column(
+              //         mainAxisAlignment: MainAxisAlignment.center,
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: [
+              //           Text(
+              //             "ICT APPLICATION",
+              //             overflow: TextOverflow.ellipsis,
+              //             maxLines: 1,
+              //             softWrap: true,
+              //           ),
+              //           Text(
+              //             "Submit Assignment",
+              //             overflow: TextOverflow.ellipsis,
+              //             maxLines: 1,
+              //             softWrap: true,
+              //           ),
+              //         ],
+              //       ),
+              //     ),
+              //
+              //     // time or check box
+              //     Center(
+              //       child: Checkbox(
+              //         checkColor: Colors.white,
+              //         activeColor: Colors.grey,
+              //         value: isChecked,
+              //         onChanged: (bool? value) {
+              //           setState(() {
+              //             isChecked = value!;
+              //           });
+              //         },
+              //       ),
+              //     ),
+              //   ],
+              // ),
+              //
             ],
           ),
         ),
