@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, use_build_context_synchronously
 
 import 'package:classmate/pages/sub_pages/add_task.dart';
+import 'package:classmate/pages/sub_pages/task_rename.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
@@ -50,6 +51,66 @@ class _SubjectState extends State<Subject> {
 
   @override
   Widget build(BuildContext context) {
+    void editTask(id) async {
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              content: Container(
+                height: 200,
+                color: Colors.transparent,
+                child: TaskRename(
+                  id: id,
+                ),
+              ),
+            );
+          });
+
+      getTasks();
+    }
+
+    void deleteTask(id, name) async {
+      await showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text(
+                'Delete Dask',
+                textAlign: TextAlign.center,
+              ),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: [
+                    Text(
+                      "$name",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Are you sure you want to delete the task?',
+                      textAlign: TextAlign.center,
+                    ),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Delete'),
+                  onPressed: () {
+                    _classmatebox.delete(id);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
+
+      getTasks();
+    }
+
     void addTaskSheet() async {
       await Navigator.of(context).push(
         MaterialPageRoute(
@@ -123,15 +184,47 @@ class _SubjectState extends State<Subject> {
           Expanded(
             child: ListView.separated(
               itemCount: _tasks.length,
-              separatorBuilder: (BuildContext context, int index) => SizedBox(
+              separatorBuilder: (BuildContext context, int index) => Divider(
                 height: 20,
               ),
               itemBuilder: (BuildContext context, int index) {
                 return Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Container(
-                    padding: EdgeInsets.all(20),
-                    color: Colors.grey,
+                    padding: EdgeInsets.all(10),
+                    color: Colors.transparent,
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            "${_tasks[index]['name']}",
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                          ),
+                        ),
+                        // edit --------------------
+                        SizedBox(
+                          width: 5,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            editTask(_tasks[index]['id']);
+                          },
+                          child: Icon(Icons.edit),
+                        ),
+                        // delete ------------------
+                        SizedBox(
+                          width: 5,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            deleteTask(
+                                _tasks[index]['id'], _tasks[index]['name']);
+                          },
+                          child: Icon(Icons.delete),
+                        ),
+                      ],
+                    ),
                   ),
                 );
               },

@@ -130,7 +130,7 @@ class _HomeState extends State<Home> {
               ),
 
               // List of all subjects
-              GridView.builder(
+              _subjects.isNotEmpty ? GridView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -143,6 +143,17 @@ class _HomeState extends State<Home> {
                 itemBuilder: (context, index) {
                   return subject(_subjects[index]);
                 },
+              ): 
+              Container(
+                color: Colors.transparent,
+                alignment: Alignment.center,
+                child: Column(
+                  children: [
+                    Icon(Icons.search_off_rounded,size: 50,),
+                    SizedBox(height: 10,),
+                    Text("You have no subjects"),
+                  ],
+                ),
               ),
               SizedBox(
                 height: 20,
