@@ -24,7 +24,9 @@ class _TutorialState extends State<Tutorial> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Stack(
+
         children: [
+
           //page view
           PageView(
             controller: _controller,
@@ -33,6 +35,7 @@ class _TutorialState extends State<Tutorial> {
                 onLastPage = (index == 2);
               });
             },
+
             children: [
               IntroPage1(),
               IntroPage2(),
@@ -51,7 +54,12 @@ class _TutorialState extends State<Tutorial> {
                   onTap: (){
                     _controller.jumpToPage(2);
                   },
-                  child: Text('skip'),
+                  child: Text('skip',
+                    style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
 
                 //dot indicator
@@ -59,7 +67,7 @@ class _TutorialState extends State<Tutorial> {
                 //next or done
                 onLastPage
                     ? GestureDetector(
-                  onTap: () {
+                    onTap: () {
                     Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
@@ -69,16 +77,25 @@ class _TutorialState extends State<Tutorial> {
                       ),
                     );
                   },
-                  child: Text('done'),
+                    child: Text('done',
+                    style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 )
                     : GestureDetector(
-                  onTap: () {
+                    onTap: () {
                     _controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn,
                     );
                   },
-                  child: Text('next'),
-                )
-
+                    child: Text('next',
+                    style: TextStyle(
+                    color: Colors.white,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  ),
+                ),
               ],
             ),
           ),
