@@ -16,7 +16,7 @@ class _HomeState extends State<Home> {
   final _classmatebox = Hive.box("classmatebox");
   List _subjects = [];
 
-  var main_color = Color(0xff75ccb9);
+  var main_color = Colors.orangeAccent;
   final TextEditingController _subject = TextEditingController();
 
   // get subjects and tasks

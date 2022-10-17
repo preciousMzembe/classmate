@@ -116,7 +116,7 @@ class GridBuilderState extends State<GridBuilder> {
                         padding: EdgeInsets.all(3),
                         alignment: Alignment.center,
                         decoration:BoxDecoration(
-                            color: Colors.grey[300],
+                            color: Colors.orangeAccent,
                             borderRadius: BorderRadius.all(
                               Radius.circular(10),
                             )),

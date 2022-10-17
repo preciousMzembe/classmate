@@ -14,7 +14,7 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
   final _classmatebox = Hive.box("classmatebox");
-  var main_color = Colors.grey[500];
+  var main_color = Colors.orangeAccent;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
@@ -95,7 +95,7 @@ class _CalendarState extends State<Calendar> {
                   shape: BoxShape.circle,
                 ),
                 todayDecoration: BoxDecoration(
-                  color: Colors.grey[400],
+                  color: Colors.deepOrangeAccent,
                   shape: BoxShape.circle,
                 ),
               ),
@@ -156,8 +156,8 @@ class _CalendarState extends State<Calendar> {
                             children: [
                               Text("${dayEvents[index][1]}"),
                               Checkbox(
-                                checkColor: Colors.white,
-                                activeColor: Colors.grey,
+                                checkColor: Colors.orangeAccent,
+                                activeColor: Colors.orangeAccent,
                                 value: dayEvents[index][2],
                                 onChanged: (bool? value) {
                                   // change and fetch events
