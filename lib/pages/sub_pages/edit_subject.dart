@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:classmate/pages/sub_pages/palette.dart';
 
 class EditSubject extends StatefulWidget {
   final int id;
@@ -19,8 +20,14 @@ class _EditSubjectState extends State<EditSubject> {
   var _subjectInfo = {}; // get subject information using widget.id(key)
 
   final _timeList = ['1 (8:30-9:45)', '2 (10:00-11:15)', '3 (11:30-12:45)', '4 (1:00-2:15)', '5 (2:30-3:45)', '6 (4:00-5:15)', '7 (5:30-6:45)', '8 (7:00-8:15)'];
-
   List _buttonColor = [false, false, false, false, false];
+
+  Color currentColor = Color.fromRGBO(127, 188, 210, 1); //default color
+  List<Color> colorHistory = [];
+
+  void changeColor(Color color) => setState((){
+    currentColor = color;
+  });
 
   @override
   void initState() {
@@ -31,6 +38,7 @@ class _EditSubjectState extends State<EditSubject> {
   void getSubjectInfo() {
     setState(() {
       _subjectInfo = _classmatebox.get(widget.id);
+      currentColor = _subjectInfo['color'] != null ? Color(_subjectInfo['color']) : currentColor;
       getButtonColor();
     });
   }
@@ -58,6 +66,7 @@ class _EditSubjectState extends State<EditSubject> {
     if (_formKey.currentState!.validate()) {
 
       _formKey.currentState!.save();
+      _subjectInfo['color'] = currentColor.value;
 
       await _classmatebox.put(widget.id, _subjectInfo).then((value) =>
           ScaffoldMessenger.of(context).showSnackBar(
@@ -148,6 +157,15 @@ class _EditSubjectState extends State<EditSubject> {
                       });
                     },
                   ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+                    alignment: Alignment.center,
+                    child: Palette(
+                      pickerColor: currentColor,
+                      onColorChanged: changeColor,
+                      colorHistory: colorHistory,
+                    ),
+                  ),
                   Padding(
                     padding: const EdgeInsets.fromLTRB(0, 30, 0, 10),
                     child: GestureDetector(
@@ -159,7 +177,7 @@ class _EditSubjectState extends State<EditSubject> {
                         child: Container(
                           height: 50,
                           padding: EdgeInsets.all(10),
-                          color: main_color,
+                          color: currentColor,
                           child: Center(
                             child: Text("Save"),
                           ),
@@ -203,7 +221,7 @@ class _EditSubjectState extends State<EditSubject> {
             height: 50,
             width: 60,
             padding: EdgeInsets.all(5),
-            color: _buttonColor[index] ? main_color : Colors.transparent,
+            color: _buttonColor[index] ? currentColor : Colors.transparent,
             child: Center(
               child: Text(
                 text,

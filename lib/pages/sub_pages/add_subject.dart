@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:classmate/pages/sub_pages/palette.dart';
 
 class AddSubject extends StatefulWidget {
   const AddSubject({super.key});
@@ -17,7 +18,6 @@ class _AddSubjectState extends State<AddSubject> {
   final _formKey = GlobalKey<FormState>();
 
   final _timeList = ['1 (8:30-9:45)', '2 (10:00-11:15)', '3 (11:30-12:45)', '4 (1:00-2:15)', '5 (2:30-3:45)', '6 (4:00-5:15)', '7 (5:30-6:45)', '8 (7:00-8:15)'];
-
   List _buttonColor = [false, false, false, false, false];
 
   // data
@@ -27,6 +27,15 @@ class _AddSubjectState extends State<AddSubject> {
   late String _professor;
   late String _classTime;
   List<String> _dayList= [];
+  int _color = Color.fromRGBO(127, 188, 210, 1).value;
+
+  Color currentColor = Color.fromRGBO(127, 188, 210, 1); //default color
+  List<Color> colorHistory = [];
+
+  void changeColor(Color color) => setState((){
+    currentColor = color;
+    _color = color.value;
+  });
 
   void addSubjectDB() async {
     if(_dayList.isEmpty){
@@ -46,6 +55,7 @@ class _AddSubjectState extends State<AddSubject> {
         "professor": _professor,
         "classTime": _classTime,
         "dayList": _dayList,
+        "color": _color,
       };
       await _classmatebox.add(data).then((value) =>
           ScaffoldMessenger.of(context).showSnackBar(
@@ -147,8 +157,17 @@ class _AddSubjectState extends State<AddSubject> {
                       });
                     },
                   ),
+                  Container(
+                    padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+                    alignment: Alignment.center,
+                    child: Palette(
+                      pickerColor: currentColor,
+                      onColorChanged: changeColor,
+                      colorHistory: colorHistory,
+                    ),
+                  ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 30, 0, 10),
+                    padding: const EdgeInsets.fromLTRB(0, 10, 0, 10),
                     child: GestureDetector(
                       onTap: () async {
                         addSubjectDB();
@@ -158,7 +177,7 @@ class _AddSubjectState extends State<AddSubject> {
                         child: Container(
                           height: 50,
                           padding: EdgeInsets.all(10),
-                          color: main_color,
+                          color: currentColor,
                           child: Center(
                             child: Text("Save"),
                           ),
@@ -202,7 +221,7 @@ class _AddSubjectState extends State<AddSubject> {
             height: 50,
             width: 60,
             padding: EdgeInsets.all(5),
-            color: _buttonColor[index] ? main_color : Colors.transparent,
+            color: _buttonColor[index] ? currentColor : Colors.transparent,
             child: Center(
               child: Text(
                 text,
