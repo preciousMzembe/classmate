@@ -61,7 +61,7 @@ class GridBuilder extends StatefulWidget {
 //https://stackoverflow.com/questions/43943946/how-do-i-use-async-http-data-to-return-child-widgets-in-an-indexedwidgetbuilder
 class GridBuilderState extends State<GridBuilder> {
   final boxdata = Hive.box("classmatebox").toMap();
-  final _timeList = ['1 (8:30~9:45)', '2 (10:00~11:15)', '3 (11:30~12:45)', '4 (1:00~2:15)', '5 (2:30~3:45)', '6 (4:00~5:15)', '7 (5:30~6:45)', '8 (7:00~8:15)'];
+  final _timeList = ['1 (8:30-9:45)', '2 (10:00-11:15)', '3 (11:30-12:45)', '4 (1:00-2:15)', '5 (2:30-3:45)', '6 (4:00-5:15)', '7 (5:30-6:45)', '8 (7:00-8:15)'];
   final _days = ["", "Mon", "Tue", "Wed", "Thur", "Fri"];
 
   @override

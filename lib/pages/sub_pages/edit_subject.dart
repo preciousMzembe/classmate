@@ -3,33 +3,53 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
-class AddSubject extends StatefulWidget {
-  const AddSubject({super.key});
+class EditSubject extends StatefulWidget {
+  final int id;
+  const EditSubject({super.key, required this.id});
 
   @override
-  State<AddSubject> createState() => _AddSubjectState();
+  State<EditSubject> createState() => _EditSubjectState();
 }
 
-class _AddSubjectState extends State<AddSubject> {
-  final _classmatebox = Hive.box("classmatebox");
+class _EditSubjectState extends State<EditSubject> {
   var main_color = Colors.grey[500];
-
   final _formKey = GlobalKey<FormState>();
+
+  final _classmatebox = Hive.box("classmatebox");
+  var _subjectInfo = {}; // get subject information using widget.id(key)
 
   final _timeList = ['1 (8:30-9:45)', '2 (10:00-11:15)', '3 (11:30-12:45)', '4 (1:00-2:15)', '5 (2:30-3:45)', '6 (4:00-5:15)', '7 (5:30-6:45)', '8 (7:00-8:15)'];
 
   List _buttonColor = [false, false, false, false, false];
 
-  // data
-  bool _check = true; // check duplicate subject name
-  late String _subjectName;
-  late String _place;
-  late String _professor;
-  late String _classTime;
-  List<String> _dayList= [];
+  @override
+  void initState() {
+    getSubjectInfo();
+    super.initState();
+  }
 
-  void addSubjectDB() async {
-    if(_dayList.isEmpty){
+  void getSubjectInfo() {
+    setState(() {
+      _subjectInfo = _classmatebox.get(widget.id);
+      getButtonColor();
+    });
+  }
+  void getButtonColor(){
+    var buttonName = ["Mon", "Tue", "Wed", "Thur", "Fri"];
+    var days = _subjectInfo["dayList"];
+    for(int i=0; i<buttonName.length; i++){
+      for(var item in days){
+        if(item == buttonName[i]){
+          setState(() {
+            _buttonColor[i] = true;
+          });
+        }
+      }
+    }
+  }
+
+  void editSubjectDB() async {
+    if(_subjectInfo["dayList"].isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("Select days of week!!")),
       );
@@ -39,38 +59,19 @@ class _AddSubjectState extends State<AddSubject> {
 
       _formKey.currentState!.save();
 
-      var data = {
-        "title": "subject",
-        "name": _subjectName,
-        "place": _place,
-        "professor": _professor,
-        "classTime": _classTime,
-        "dayList": _dayList,
-      };
-      await _classmatebox.add(data).then((value) =>
+      await _classmatebox.put(widget.id, _subjectInfo).then((value) =>
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Subject added successfully!!")),
+            SnackBar(content: Text("Subject edited successfully!!")),
           )
       ).then((value) => Navigator.pop(context));
     }
-  }
-
-  bool checkDuplicate_DB(String subject){
-    var boxdata = _classmatebox.toMap();
-    for (var element in boxdata.values) {
-      if (element['name'] == subject &&
-          element['title'] == "subject") {
-        return true;
-      }
-    }
-    return false;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Subject"),
+        title: Text("Edit Subject"),
         elevation: 0.0,
         backgroundColor: Colors.grey[800],
       ),
@@ -83,6 +84,7 @@ class _AddSubjectState extends State<AddSubject> {
                 children: [
                   renderDaysOfWeek(),
                   TextFormField(
+                    initialValue: _subjectInfo["name"],
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Subject',
@@ -91,19 +93,16 @@ class _AddSubjectState extends State<AddSubject> {
                       if (value == null || value.isEmpty) {
                         return 'Please enter some text';
                       }
-                      _check = checkDuplicate_DB(value.toString());
-                      if(_check){
-                        return "Subject already exists";
-                      }
                       return null;
                     },
                     onSaved: (value){
                       setState(() {
-                        _subjectName = value.toString();
+                        _subjectInfo["name"] = value.toString();
                       });
                     },
                   ),
                   DropdownButtonFormField(
+                      value: _subjectInfo["classTime"].toString(),
                       hint: Text("Class Time"),
                       items: _timeList.map(
                               (value){
@@ -121,29 +120,31 @@ class _AddSubjectState extends State<AddSubject> {
                       },
                       onChanged: (value){
                         setState(() {
-                          _classTime = value.toString();
+                          _subjectInfo["classTime"] = value.toString();
                         });
                       }
                   ),
                   TextFormField(
+                    initialValue: _subjectInfo["place"],
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Place',
                     ),
                     onSaved: (value){
                       setState(() {
-                        _place = value.toString();
+                        _subjectInfo["place"] = value.toString();
                       });
                     },
                   ),
                   TextFormField(
+                    initialValue: _subjectInfo["professor"],
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Professor',
                     ),
                     onSaved: (value){
                       setState(() {
-                        _professor = value.toString();
+                        _subjectInfo["professor"] = value.toString();
                       });
                     },
                   ),
@@ -151,7 +152,7 @@ class _AddSubjectState extends State<AddSubject> {
                     padding: const EdgeInsets.fromLTRB(0, 30, 0, 10),
                     child: GestureDetector(
                       onTap: () async {
-                        addSubjectDB();
+                        editSubjectDB();
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
@@ -186,12 +187,12 @@ class _AddSubjectState extends State<AddSubject> {
           setState(() {
             _buttonColor[index] = !_buttonColor[index];
             if(_buttonColor[index]){
-              if(!_dayList.contains(text)){
-                _dayList.add(text);
+              if(!_subjectInfo["dayList"].contains(text)){
+                _subjectInfo["dayList"].add(text);
               }
             }else{
-              if(_dayList.contains(text)){
-                _dayList.remove(text);
+              if(_subjectInfo["dayList"].contains(text)){
+                _subjectInfo["dayList"].remove(text);
               }
             }
           });
