@@ -31,11 +31,11 @@ class _WrapperState extends State<Wrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
       // app bar
-      appBar: AppBar(
-        title: Text("Classmate"),
-        elevation: 0.0,
-        backgroundColor: Colors.grey[800],
-      ),
+      // appBar: AppBar(
+      //   title: Text("Classmate"),
+      //   elevation: 0.0,
+      //   backgroundColor: Colors.grey[800],
+      // ),
       // body
       body: _pages[_nav_position],
       // bottom navigation bar

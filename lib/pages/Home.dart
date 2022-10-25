@@ -113,6 +113,11 @@ class _HomeState extends State<Home> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Classmate"),
+        elevation: 0.0,
+        backgroundColor: Colors.grey[800],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 10, 20, 100),
@@ -322,7 +327,7 @@ class _HomeState extends State<Home> {
           borderRadius:  BorderRadius.circular(20.0),
         ),
         child: FloatingActionButton.extended(
-          backgroundColor: Color(0xFF2980b9),
+          backgroundColor: Colors.orangeAccent,
           onPressed: () async {
             await Navigator.of(context).push(
               MaterialPageRoute(
@@ -335,9 +340,14 @@ class _HomeState extends State<Home> {
           label: Text(
             "ADD SUBJECT",
             style: TextStyle(
-              fontSize: 18.0
+              fontSize: 18.0,
+              // color: Colors.white
             ),
           ),
+          // icon: Icon(
+          //   Icons.add,
+          //   color: Colors.white,
+          // ),
         ),
       ),
       // floatingActionButton: FloatingActionButton(
