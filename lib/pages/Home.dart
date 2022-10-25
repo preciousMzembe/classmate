@@ -24,6 +24,7 @@ class _HomeState extends State<Home> {
     var tempData = [];
     var boxdata = _classmatebox.toMap();
     for (var key in boxdata.keys) {
+      // _classmatebox.delete(key);
       if (boxdata[key]['title'] == "subject") {
         var subject = {
           "id": key,
@@ -48,16 +49,16 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     // add subject
-    void addSubjectSheet() async {
-
-      await Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => AddSubject(),
-        ),
-      );
-
-      getSubjects();
-    }
+    // void addSubjectSheet() async {
+    //
+    //   await Navigator.of(context).push(
+    //     MaterialPageRoute(
+    //       builder: (context) => AddSubject(),
+    //     ),
+    //   );
+    //
+    //   getSubjects();
+    // }
 
     // subject templet
     Widget subject(var subject) {
@@ -112,6 +113,11 @@ class _HomeState extends State<Home> {
     }
 
     return Scaffold(
+      appBar: AppBar(
+        title: Text("Classmate"),
+        elevation: 0.0,
+        backgroundColor: Colors.grey[800],
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 10, 20, 100),
@@ -315,15 +321,45 @@ class _HomeState extends State<Home> {
       ),
 
       // add subject button
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          addSubjectSheet();
-        },
-        child: Icon(
-          Icons.add,
-          color: Color(0xffdbffff),
+      floatingActionButton: Container(
+        width: MediaQuery.of(context).size.width * 0.70,
+        decoration: BoxDecoration(
+          borderRadius:  BorderRadius.circular(20.0),
+        ),
+        child: FloatingActionButton.extended(
+          backgroundColor: Colors.orangeAccent,
+          onPressed: () async {
+            await Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => AddSubject(),
+              ),
+            );
+            getSubjects();
+          },
+          elevation: 0,
+          label: Text(
+            "ADD SUBJECT",
+            style: TextStyle(
+              fontSize: 18.0,
+              // color: Colors.white
+            ),
+          ),
+          // icon: Icon(
+          //   Icons.add,
+          //   color: Colors.white,
+          // ),
         ),
       ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     addSubjectSheet();
+      //   },
+      //   child: Icon(
+      //     Icons.add,
+      //     color: Color(0xffdbffff),
+      //   ),
+      // ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
