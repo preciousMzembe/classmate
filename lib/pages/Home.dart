@@ -16,7 +16,7 @@ class _HomeState extends State<Home> {
   final _classmatebox = Hive.box("classmatebox");
   List _subjects = [];
 
-  var main_color = Colors.orangeAccent;
+  var main_color = Colors.grey[300];
   final TextEditingController _subject = TextEditingController();
 
   // get subjects and tasks
@@ -29,6 +29,7 @@ class _HomeState extends State<Home> {
         var subject = {
           "id": key,
           "name": boxdata[key]['name'],
+          'color': boxdata[key]['color'],
         };
         tempData.add(subject);
       }
@@ -48,18 +49,6 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
-    // add subject
-    // void addSubjectSheet() async {
-    //
-    //   await Navigator.of(context).push(
-    //     MaterialPageRoute(
-    //       builder: (context) => AddSubject(),
-    //     ),
-    //   );
-    //
-    //   getSubjects();
-    // }
-
     // subject templet
     Widget subject(var subject) {
       return GestureDetector(
@@ -77,7 +66,7 @@ class _HomeState extends State<Home> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: Container(
-            color: main_color,
+            color: subject['color'] != null ? Color(subject['color']) : main_color,
             padding: EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
