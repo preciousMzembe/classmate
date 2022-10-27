@@ -40,7 +40,11 @@ class _AddSubjectState extends State<AddSubject> {
   void addSubjectDB() async {
     if(_dayList.isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Select days of week!!")),
+        SnackBar(content: Text("Select Days of Week",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.bold),),
+          backgroundColor: Colors.blueAccent,
+        ),
       );
       return;
     }
@@ -59,7 +63,11 @@ class _AddSubjectState extends State<AddSubject> {
       };
       await _classmatebox.add(data).then((value) =>
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Subject added successfully!!")),
+            SnackBar(content: Text("Subject Added Successfully",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold),),
+              backgroundColor: Colors.blueAccent,
+            ),
           )
       ).then((value) => Navigator.pop(context));
     }
@@ -80,9 +88,9 @@ class _AddSubjectState extends State<AddSubject> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Subject"),
+        title: Text("Add Subject", style: TextStyle(fontWeight: FontWeight.bold),),
         elevation: 0.0,
-        backgroundColor: Colors.grey[800],
+        backgroundColor: currentColor,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -96,14 +104,17 @@ class _AddSubjectState extends State<AddSubject> {
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Subject',
+                      labelStyle: TextStyle(
+                        color:Colors.blueGrey,
+                      ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Please Enter a Subject Name';
                       }
                       _check = checkDuplicate_DB(value.toString());
                       if(_check){
-                        return "Subject already exists";
+                        return "Subject Already Exists";
                       }
                       return null;
                     },
@@ -114,7 +125,7 @@ class _AddSubjectState extends State<AddSubject> {
                     },
                   ),
                   DropdownButtonFormField(
-                      hint: Text("Class Time"),
+                      hint: Text("Class Time", style: TextStyle(color: Colors.blueGrey),),
                       items: _timeList.map(
                               (value){
                             return DropdownMenuItem(
@@ -125,7 +136,7 @@ class _AddSubjectState extends State<AddSubject> {
                       ).toList(),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please choose item';
+                          return 'Please Choose Class Time';
                         }
                         return null;
                       },
@@ -139,6 +150,9 @@ class _AddSubjectState extends State<AddSubject> {
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Place',
+                      labelStyle: TextStyle(
+                        color:Colors.blueGrey,
+                      ),
                     ),
                     onSaved: (value){
                       setState(() {
@@ -150,6 +164,9 @@ class _AddSubjectState extends State<AddSubject> {
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Professor',
+                      labelStyle: TextStyle(
+                        color:Colors.blueGrey,
+                      ),
                     ),
                     onSaved: (value){
                       setState(() {
@@ -179,7 +196,7 @@ class _AddSubjectState extends State<AddSubject> {
                           padding: EdgeInsets.all(10),
                           color: currentColor,
                           child: Center(
-                            child: Text("Save"),
+                            child: Text("SAVE", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
                           ),
                         ),
                       ),
@@ -225,7 +242,7 @@ class _AddSubjectState extends State<AddSubject> {
             child: Center(
               child: Text(
                 text,
-                style: TextStyle(fontSize:16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize:16, fontWeight: FontWeight.bold, color: Colors.blueGrey),
               ),
             ),
           ),

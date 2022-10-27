@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors, unused_local_variable
 
+import 'package:classmate/pages/Home.dart';
 import 'package:classmate/pages/Tutorial.dart';
 import 'package:classmate/pages/wrapper.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        accentColor: Colors.orange,
+        accentColor: Color.fromRGBO(127, 188, 250, 1),
       ),
       debugShowCheckedModeBanner: false,
       home: Tutorial(),

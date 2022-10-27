@@ -13,7 +13,7 @@ class EditSubject extends StatefulWidget {
 }
 
 class _EditSubjectState extends State<EditSubject> {
-  var main_color = Colors.grey[500];
+  var main_color = Color.fromRGBO(127, 188, 250, 1);
   final _formKey = GlobalKey<FormState>();
 
   final _classmatebox = Hive.box("classmatebox");
@@ -59,7 +59,11 @@ class _EditSubjectState extends State<EditSubject> {
   void editSubjectDB() async {
     if(_subjectInfo["dayList"].isEmpty){
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Select days of week!!")),
+        SnackBar(content: Text("Select Days of Week",
+          textAlign: TextAlign.center,
+          style: TextStyle(fontWeight: FontWeight.bold),),
+          backgroundColor: Colors.blueAccent,
+        ),
       );
       return;
     }
@@ -70,7 +74,11 @@ class _EditSubjectState extends State<EditSubject> {
 
       await _classmatebox.put(widget.id, _subjectInfo).then((value) =>
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Subject edited successfully!!")),
+            SnackBar(content: Text("Subject Added Successfully",
+              textAlign: TextAlign.center,
+              style: TextStyle(fontWeight: FontWeight.bold),),
+              backgroundColor: Color.fromRGBO(127, 188, 250, 1),
+            ),
           )
       ).then((value) => Navigator.pop(context));
     }
@@ -80,9 +88,9 @@ class _EditSubjectState extends State<EditSubject> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Subject"),
+        title: Text("Edit Subject", style: TextStyle(fontWeight: FontWeight.bold,),),
         elevation: 0.0,
-        backgroundColor: Colors.grey[800],
+        backgroundColor: currentColor,
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
@@ -97,10 +105,13 @@ class _EditSubjectState extends State<EditSubject> {
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Subject',
+                      labelStyle: TextStyle(
+                        color:Colors.blueGrey,
+                      ),
                     ),
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'Please enter some text';
+                        return 'Please Enter a Subject Name';
                       }
                       return null;
                     },
@@ -113,6 +124,7 @@ class _EditSubjectState extends State<EditSubject> {
                   DropdownButtonFormField(
                       value: _subjectInfo["classTime"].toString(),
                       hint: Text("Class Time"),
+
                       items: _timeList.map(
                               (value){
                             return DropdownMenuItem(
@@ -123,7 +135,7 @@ class _EditSubjectState extends State<EditSubject> {
                       ).toList(),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please choose item';
+                          return 'Please Choose Class Time';
                         }
                         return null;
                       },
@@ -138,6 +150,9 @@ class _EditSubjectState extends State<EditSubject> {
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Place',
+                      labelStyle: TextStyle(
+                        color:Colors.blueGrey,
+                      ),
                     ),
                     onSaved: (value){
                       setState(() {
@@ -150,6 +165,9 @@ class _EditSubjectState extends State<EditSubject> {
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
                       labelText: 'Professor',
+                      labelStyle: TextStyle(
+                        color:Colors.blueGrey,
+                      ),
                     ),
                     onSaved: (value){
                       setState(() {
@@ -179,7 +197,7 @@ class _EditSubjectState extends State<EditSubject> {
                           padding: EdgeInsets.all(10),
                           color: currentColor,
                           child: Center(
-                            child: Text("Save"),
+                              child: Text("SAVE", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
                           ),
                         ),
                       ),
@@ -225,7 +243,7 @@ class _EditSubjectState extends State<EditSubject> {
             child: Center(
               child: Text(
                 text,
-                style: TextStyle(fontSize:16, fontWeight: FontWeight.bold),
+                style: TextStyle(fontSize:16, fontWeight: FontWeight.bold, color: Colors.blueGrey),
               ),
             ),
           ),

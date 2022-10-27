@@ -14,7 +14,7 @@ class Calendar extends StatefulWidget {
 
 class _CalendarState extends State<Calendar> {
   final _classmatebox = Hive.box("classmatebox");
-  var main_color = Colors.orangeAccent;
+  var main_color = Colors.blueGrey;
   CalendarFormat _calendarFormat = CalendarFormat.month;
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
@@ -71,11 +71,11 @@ class _CalendarState extends State<Calendar> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: Text("Calendar"),
         elevation: 0.0,
         backgroundColor: Colors.grey[800],
-      ),
+      ),*/
       body: Padding(
         padding: EdgeInsets.fromLTRB(20, 10, 20, 20),
         child: Column(
@@ -100,7 +100,7 @@ class _CalendarState extends State<Calendar> {
                   shape: BoxShape.circle,
                 ),
                 todayDecoration: BoxDecoration(
-                  color: Colors.deepOrangeAccent,
+                  color: Color.fromRGBO(127, 188, 250, 1),
                   shape: BoxShape.circle,
                 ),
               ),
@@ -111,6 +111,7 @@ class _CalendarState extends State<Calendar> {
                 titleTextStyle: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 18,
+                  color: Colors.blueGrey,
                 ),
               ),
               selectedDayPredicate: (day) {
@@ -142,6 +143,7 @@ class _CalendarState extends State<Calendar> {
               style: TextStyle(
                 fontSize: 18,
                 fontWeight: FontWeight.bold,
+                color: Colors.blueGrey,
               ),
             ),
             SizedBox(
@@ -161,8 +163,8 @@ class _CalendarState extends State<Calendar> {
                             children: [
                               Text("${dayEvents[index][1]}"),
                               Checkbox(
-                                checkColor: Colors.orangeAccent,
-                                activeColor: Colors.orangeAccent,
+                                checkColor: Color.fromRGBO(127, 188, 250, 1),
+                                activeColor: Color.fromRGBO(127, 188, 250, 1),
                                 value: dayEvents[index][2],
                                 onChanged: (bool? value) {
                                   // change and fetch events
@@ -185,11 +187,11 @@ class _CalendarState extends State<Calendar> {
                     )
                   : Center(
                       child: Text(
-                        "nothing planned for this day",
+                        "No Events",
                         style: TextStyle(
                             fontSize: 16,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black),
+                            color: Colors.blueGrey),
                       ),
                     ),
             ),

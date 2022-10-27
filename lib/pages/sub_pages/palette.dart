@@ -4,9 +4,10 @@ import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 const List<Color> colors = [
   Color.fromRGBO(127, 188, 210, 1),
   Color.fromRGBO(165, 241, 233, 1),
-  Color.fromRGBO(255, 238, 175, 1),
+  Color.fromRGBO(255, 227, 169, 1),
   Color.fromRGBO(255, 192, 144, 1),
   Color.fromRGBO(245, 148, 148, 1),
+  //Color.fromRGBO(127, 188, 250, 1)
 ];
 
 

@@ -4,7 +4,7 @@ class IntroPage1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.redAccent,
+      backgroundColor: Color.fromRGBO(127, 188, 250, 1),
       body: PageView.builder(
         itemCount: 1,
         itemBuilder: (_,i){

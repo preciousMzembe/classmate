@@ -3,7 +3,9 @@
 import 'package:classmate/pages/Calendar.dart';
 import 'package:classmate/pages/Home.dart';
 import 'package:classmate/pages/Timetable.dart';
+import 'package:classmate/pages/sub_pages/palette.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class Wrapper extends StatefulWidget {
   const Wrapper({super.key});
@@ -31,18 +33,19 @@ class _WrapperState extends State<Wrapper> {
   Widget build(BuildContext context) {
     return Scaffold(
       // app bar
-      // appBar: AppBar(
-      //   title: Text("Classmate"),
-      //   elevation: 0.0,
-      //   backgroundColor: Colors.grey[800],
-      // ),
+      appBar: AppBar(
+        title: Center(child:Icon(Icons.face, size: 30,)),
+        elevation: 0.0,
+        backgroundColor: Color.fromRGBO(127, 188, 250, 1),
+      ),
       // body
       body: _pages[_nav_position],
       // bottom navigation bar
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Color.fromRGBO(127, 188, 250, 1),
         onTap: _navigate,
         currentIndex: _nav_position,
-        selectedItemColor: Colors.black,
+        selectedItemColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(

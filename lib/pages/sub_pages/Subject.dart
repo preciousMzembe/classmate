@@ -76,8 +76,9 @@ class _SubjectState extends State<Subject> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text(
-                'Delete Subject',
+                'Are You Sure You Want To Delete',
                 textAlign: TextAlign.center,
+                style: TextStyle(fontWeight: FontWeight.bold, color:Colors.blueGrey),
               ),
               content: SingleChildScrollView(
                 child: ListBody(
@@ -85,21 +86,17 @@ class _SubjectState extends State<Subject> {
                     Text(
                       subjectInfo["name"].toString(),
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey),
                     ),
                     SizedBox(
                       height: 10,
-                    ),
-                    Text(
-                      'Are you sure you want to delete this subject?',
-                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('Delete'),
+                  child: const Text('DELETE', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey),textAlign: TextAlign.center,),
                   onPressed: () {
                     _classmatebox.delete(widget.id).then((value) =>
                         Navigator.of(context).pop()
@@ -119,7 +116,11 @@ class _SubjectState extends State<Subject> {
           builder: (BuildContext context) {
             return AlertDialog(
               title: const Text(
-                'Delete Task',
+                'Are you sure you want\nto delete the task?',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blueGrey
+                ),
                 textAlign: TextAlign.center,
               ),
               content: SingleChildScrollView(
@@ -128,21 +129,27 @@ class _SubjectState extends State<Subject> {
                     Text(
                       "$name",
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: Color.fromRGBO(127, 188, 250, 1),
+
+                      ),
                     ),
                     SizedBox(
                       height: 10,
-                    ),
-                    Text(
-                      'Are you sure you want to delete the task?',
-                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('Delete'),
+                  child: const Text('DELETE',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: Color.fromRGBO(245, 148, 148, 1),
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                   onPressed: () {
                     _classmatebox.delete(id).then((value) =>
                         Navigator.of(context).pop()
@@ -171,60 +178,66 @@ class _SubjectState extends State<Subject> {
     return Scaffold(
       // app bar
       appBar: AppBar(
-        title: Text("SUBJECT"),
-        backgroundColor: Colors.grey[800],
+        title: Text("${subjectInfo['name']}", style: TextStyle(fontWeight: FontWeight.bold),),
+        backgroundColor: Color.fromRGBO(127, 188, 250, 1),
+        elevation: 0.0,
+        actions: [
+          PopupMenuButton(
+            onSelected: (value) async{
+              if (value == 0) {
+                // move to edit subject
+                await Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => EditSubject(
+                      id: widget.id,
+                    ),
+                  ),
+                );
+              } else {
+                // show alert dialog before delete
+                alertDeleteSubject(context);
+              }
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 0,
+                child: Text("EDIT",
+                    style:TextStyle(color: Color.fromRGBO(255, 192, 144, 1),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13
+                    ),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              PopupMenuItem(
+                value: 1,
+                child: Text("DELETE",
+                  style: TextStyle(
+                    color: Color.fromRGBO(245, 148, 148, 1),
+                    fontWeight: FontWeight.bold,
+                      fontSize: 13
+                  ),
+                textAlign: TextAlign.center,
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
-      // appBar: AppBar(
-      //   title: Text(
-      //     "${subjectInfo['name']}".toUpperCase(),
-      //     overflow: TextOverflow.ellipsis,
-      //     maxLines: 1,
-      //     softWrap: true,
-      //   ),
-      //   elevation: 0.0,
-      //   backgroundColor: Colors.grey[800],
-      //   actions: [
-      //     PopupMenuButton(
-      //       onSelected: (value) async{
-      //         if (value == 0) {
-      //           // move to edit subject
-      //           await Navigator.of(context).push(
-      //             MaterialPageRoute(
-      //               builder: (context) => EditSubject(
-      //                 id: widget.id,
-      //               ),
-      //             ),
-      //           );
-      //         } else {
-      //           // show alert dialog before delete
-      //           alertDeleteSubject(context);
-      //         }
-      //       },
-      //       itemBuilder: (context) => [
-      //         PopupMenuItem(
-      //           value: 0,
-      //           child: Text("Edit"),
-      //         ),
-      //         PopupMenuItem(
-      //           value: 1,
-      //           child: Text("Delete"),
-      //         ),
-      //       ],
-      //     ),
-      //   ],
-      // ),
 
       // body
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            margin: const EdgeInsets.fromLTRB(10, 10, 10, 15),
+            height: 40,
+            margin: const EdgeInsets.fromLTRB(10, 20, 10, 20),
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 0),
             decoration: BoxDecoration(
+              color: Colors.white24,
               border: Border.all(
-                width: 0.5,
-                color: Colors.grey,
+                width: 1,
+                color: Colors.white24,
               ),
               borderRadius: BorderRadius.all(
                   Radius.circular(5.0) // POINT
@@ -234,23 +247,26 @@ class _SubjectState extends State<Subject> {
               children: [
                 Expanded(
                   child: Text(
-                    "${subjectInfo['name']}",
+                    "TASK LIST",
                     overflow: TextOverflow.ellipsis,
                     maxLines: 1,
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
+                      color: Colors.blueGrey,
                     ),
+                    textAlign: TextAlign.center,
                   ),
                 ),
                 // edit --------------------
-                TextButton(
+                /*TextButton(
                     child: Padding(
                       padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                       child: Text(
-                        "Edit",
+                        "EDIT",
                         style: TextStyle(
-                          color: Colors.orange,
+                          color: Color.fromRGBO(255, 192, 144, 1),
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     )
@@ -268,14 +284,15 @@ class _SubjectState extends State<Subject> {
                   child: Padding(
                     padding: const EdgeInsets.fromLTRB(8, 0, 8, 0),
                     child: Text(
-                      "Delete",
+                      "DELETE",
                       style: TextStyle(
-                        color: Colors.deepOrange,
+                        color: Color.fromRGBO(245, 148, 148, 1),
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   )
                   ,onPressed: (){alertDeleteSubject(context);},
-                ),
+                ),*/
               ],
             ),
           ),
@@ -309,7 +326,7 @@ class _SubjectState extends State<Subject> {
                           onTap: () {
                             editTask(_tasks[index]['id']);
                           },
-                          child: Icon(Icons.edit),
+                          child: Icon(Icons.edit, color: Color.fromRGBO(255, 192, 144, 1)),
                         ),
                         // delete ------------------
                         SizedBox(
@@ -320,7 +337,7 @@ class _SubjectState extends State<Subject> {
                             deleteTask(
                                 _tasks[index]['id'], _tasks[index]['name']);
                           },
-                          child: Icon(Icons.delete),
+                          child: Icon(Icons.delete, color: Color.fromRGBO(245, 148, 148, 1)),
                         ),
                       ],
                     ),

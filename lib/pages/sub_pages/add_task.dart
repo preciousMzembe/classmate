@@ -36,29 +36,23 @@ class _AddSubjectState extends State<AddTask> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Add Task"),
+        title: Text("Add Task",style: TextStyle(fontWeight: FontWeight.bold),),
         elevation: 0.0,
-        backgroundColor: Colors.grey[800],
+        backgroundColor: Color.fromRGBO(127, 188, 250, 1),
       ),
       body: Padding(
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Text(
-                "Add Task",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
               TextFormField(
                 controller: _task,
                 decoration: InputDecoration(
-                  hintText: "Type a task name",
+                  hintText: "Task Name",
+                  labelStyle: TextStyle(color:Colors.blueGrey),
                   filled: true,
                   fillColor: Colors.grey[200],
                   enabledBorder: OutlineInputBorder(
@@ -79,7 +73,8 @@ class _AddSubjectState extends State<AddTask> {
               TextFormField(
                 controller: _date,
                 decoration: InputDecoration(
-                  hintText: "Type date",
+                  hintText: "Due Date",
+                  labelStyle: TextStyle(color:Colors.blueGrey),
                   filled: true,
                   fillColor: Colors.grey[200],
                   enabledBorder: OutlineInputBorder(
@@ -137,9 +132,11 @@ class _AddSubjectState extends State<AddTask> {
                       builder: (context) {
                         return AlertDialog(
                           content: Text(
-                            "Task added successfully",
+                            "Task Added Successfully",
                             textAlign: TextAlign.center,
+                            style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
                           ),
+                          backgroundColor: Colors.white,
                         );
                       },
                     );
@@ -150,9 +147,9 @@ class _AddSubjectState extends State<AddTask> {
                   child: Container(
                     height: 50,
                     padding: EdgeInsets.all(10),
-                    color: main_color,
+                    color: Color.fromRGBO(127, 188, 250, 1),
                     child: Center(
-                      child: Text("Save"),
+                      child: Text("SAVE", style: TextStyle(fontWeight: FontWeight.bold, color:Colors.white,),),
                     ),
                   ),
                 ),

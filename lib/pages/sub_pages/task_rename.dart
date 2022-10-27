@@ -30,6 +30,7 @@ class _TaskRenameState extends State<TaskRename> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.bold,
+              color: Colors.blueGrey
             ),
           ),
           SizedBox(
@@ -58,10 +59,11 @@ class _TaskRenameState extends State<TaskRename> {
             ),
             style: TextStyle(
               fontSize: 12,
+              color: Colors.blueGrey
             ),
             validator: ((value) {
               if (value! == "") {
-                return "Enter task name";
+                return "Enter Task Name";
               } else {
                 return null;
               }
@@ -86,10 +88,10 @@ class _TaskRenameState extends State<TaskRename> {
               child: Container(
                 height: 50,
                 alignment: Alignment.center,
-                color: Colors.grey[800],
+                color: Color.fromRGBO(127, 188, 250, 1),
                 child: Text(
-                  "Set",
-                  style: TextStyle(color: Colors.white),
+                  "SAVE",
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                 ),
               ),
             ),

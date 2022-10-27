@@ -16,7 +16,7 @@ class _HomeState extends State<Home> {
   final _classmatebox = Hive.box("classmatebox");
   List _subjects = [];
 
-  var main_color = Colors.grey[300];
+  var main_color = Colors.orangeAccent;
   final TextEditingController _subject = TextEditingController();
 
   // get subjects and tasks
@@ -24,12 +24,10 @@ class _HomeState extends State<Home> {
     var tempData = [];
     var boxdata = _classmatebox.toMap();
     for (var key in boxdata.keys) {
-      // _classmatebox.delete(key);
       if (boxdata[key]['title'] == "subject") {
         var subject = {
           "id": key,
           "name": boxdata[key]['name'],
-          'color': boxdata[key]['color'],
         };
         tempData.add(subject);
       }
@@ -49,6 +47,18 @@ class _HomeState extends State<Home> {
 
   @override
   Widget build(BuildContext context) {
+    // add subject
+    void addSubjectSheet() async {
+
+      await Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => AddSubject(),
+        ),
+      );
+
+      getSubjects();
+    }
+
     // subject templet
     Widget subject(var subject) {
       return GestureDetector(
@@ -66,25 +76,7 @@ class _HomeState extends State<Home> {
         child: ClipRRect(
           borderRadius: BorderRadius.circular(12),
           child: Container(
-            decoration: BoxDecoration(
-              color: subject['color'] != null ? Color(subject['color']) : main_color,
-              borderRadius: BorderRadius.circular(12),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.shade500,
-                  offset: Offset(4,4),
-                  blurRadius: 15,
-                  spreadRadius: 1,
-                ),
-                BoxShadow(
-                  color: Colors.white,
-                  offset: Offset(-4,-4),
-                  blurRadius: 15,
-                  spreadRadius: 1,
-                ),
-              ],
-            ),
-
+            color: main_color,
             padding: EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -95,7 +87,6 @@ class _HomeState extends State<Home> {
                 Icon(
                   Icons.my_library_books_rounded,
                   size: 40,
-                  color: Colors.white,
                 ),
                 SizedBox(
                   height: 10,
@@ -108,7 +99,6 @@ class _HomeState extends State<Home> {
                   softWrap: true,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
-                    color: Colors.white,
                   ),
                 ),
                 Expanded(
@@ -122,26 +112,22 @@ class _HomeState extends State<Home> {
     }
 
     return Scaffold(
-      /*appBar: AppBar(
-        title: Text("Classmate"),
-        elevation: 0.0,
-        backgroundColor: Colors.grey[800],
-      ),*/
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.fromLTRB(20, 10, 20, 100),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /*Text(
+              Text(
                 "My Subjects",
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
                 ),
-              ),*/
+              ),
               SizedBox(
-                height: 20,
+                height: 10,
               ),
 
               // List of all subjects
@@ -163,13 +149,12 @@ class _HomeState extends State<Home> {
                 color: Colors.transparent,
                 alignment: Alignment.center,
                 child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SizedBox(
-                      height: 20,
-                    ),
-                    Icon(Icons.book_rounded,size: 50,color: Colors.grey[400],),
+                    Icon(Icons.search_off_rounded,size: 50,),
                     SizedBox(height: 10,),
-                    Text("ADD YOUR SUBJECT", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[400]),textAlign: TextAlign.center,),
+                    Text("You have no subjects"),
                   ],
                 ),
               ),
@@ -333,43 +318,15 @@ class _HomeState extends State<Home> {
       ),
 
       // add subject button
-      floatingActionButton: Container(
-        width: MediaQuery.of(context).size.width * 0.70,
-        decoration: BoxDecoration(
-          borderRadius:  BorderRadius.circular(20.0),
-        ),
-        child: FloatingActionButton.extended(
-          backgroundColor: Color.fromRGBO(127, 188, 250, 1),
-          onPressed: () async {
-            await Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => AddSubject(),
-              ),
-            );
-            getSubjects();
-          },
-          elevation: 0,
-          label: Icon(Icons.add, color: Colors.white,),
-
-              // color: Colors.white
-
-
-          // icon: Icon(
-          //   Icons.add,
-          //   color: Colors.white,
-          // ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          addSubjectSheet();
+        },
+        child: Icon(
+          Icons.add,
+          color: Color(0xffdbffff),
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: () {
-      //     addSubjectSheet();
-      //   },
-      //   child: Icon(
-      //     Icons.add,
-      //     color: Color(0xffdbffff),
-      //   ),
-      // ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }

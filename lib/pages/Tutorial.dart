@@ -54,16 +54,16 @@ class _TutorialState extends State<Tutorial> {
                   onTap: (){
                     _controller.jumpToPage(2);
                   },
-                  child: Text('skip',
+                  child: Text('SKIP',
                     style: TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 ),
 
                 //dot indicator
-                SmoothPageIndicator(controller: _controller, count: 3),
+                SmoothPageIndicator(controller: _controller, count: 3, effect: JumpingDotEffect(dotHeight: 15, dotWidth: 15, jumpScale: .7, verticalOffset: 20, activeDotColor: Colors.blueAccent, dotColor: Colors.white),),
                 //next or done
                 onLastPage
                     ? GestureDetector(
@@ -77,10 +77,10 @@ class _TutorialState extends State<Tutorial> {
                       ),
                     );
                   },
-                    child: Text('done',
+                    child: Text('DONE',
                     style: TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.bold,
                     ),
                   ),
                 )
@@ -89,10 +89,10 @@ class _TutorialState extends State<Tutorial> {
                     _controller.nextPage(duration: Duration(milliseconds: 500), curve: Curves.easeIn,
                     );
                   },
-                    child: Text('next',
+                    child: Text('NEXT',
                     style: TextStyle(
                     color: Colors.white,
-                    fontWeight: FontWeight.w500,
+                    fontWeight: FontWeight.bold,
                   ),
                   ),
                 ),

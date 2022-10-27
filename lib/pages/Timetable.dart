@@ -68,11 +68,11 @@ class GridBuilderState extends State<GridBuilder> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
+      /*appBar: AppBar(
         title: Text("Timetable"),
         elevation: 0.0,
         backgroundColor: Colors.grey[800],
-      ),
+      ),*/
       body: GridView.builder(
           padding: EdgeInsets.only(right: 10),
           itemCount: widget.subjectList.length,
@@ -88,7 +88,7 @@ class GridBuilderState extends State<GridBuilder> {
                     child: Center(
                       child: Text(
                         "${_days[index]}",
-                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                        style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.blueGrey),
                         textAlign: TextAlign.center,
                       )),
                     ),
@@ -101,7 +101,7 @@ class GridBuilderState extends State<GridBuilder> {
                     child: Center(
                         child: Text(
                           "${row.toInt()}",
-                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+                          style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,color: Colors.blueGrey),
                           textAlign: TextAlign.center,
                         )
                     )
@@ -127,7 +127,7 @@ class GridBuilderState extends State<GridBuilder> {
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),
                               )),
-                          child: Text(element["name"]),
+                          child: Text(element["name"], style: TextStyle(fontSize: 10, fontWeight: FontWeight.w700, color: Colors.white),textAlign: TextAlign.center,),
                         ),
                       ),
                     );
@@ -136,13 +136,13 @@ class GridBuilderState extends State<GridBuilder> {
               }
             }
             return InkWell(
-              child: GridTile(
+              /*child: GridTile(
                   child: Container(
                     // child: Text(index.toString()),
                     decoration:BoxDecoration(
                       border: Border(bottom: BorderSide(color: Theme.of(context).dividerColor))
                   )),
-              )
+              )*/
             );
           }),
     );
