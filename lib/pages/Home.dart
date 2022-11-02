@@ -4,6 +4,7 @@ import 'package:classmate/pages/sub_pages/Subject.dart';
 import 'package:classmate/pages/sub_pages/add_subject.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -13,6 +14,17 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer =
+  FirebaseAnalyticsObserver(analytics: analytics);
+
+  Future<void> _sendAnalyticsEvent() async {
+    await analytics.logEvent(
+      name: 'add_subject',
+      parameters: null,
+    );
+  }
+
   final _classmatebox = Hive.box("classmatebox");
   List _subjects = [];
 
@@ -341,6 +353,7 @@ class _HomeState extends State<Home> {
         child: FloatingActionButton.extended(
           backgroundColor: Color.fromRGBO(127, 188, 250, 1),
           onPressed: () async {
+            _sendAnalyticsEvent();
             await Navigator.of(context).push(
               MaterialPageRoute(
                 builder: (context) => AddSubject(),

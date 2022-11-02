@@ -47,6 +47,8 @@ class _WrapperState extends State<Wrapper> {
         currentIndex: _nav_position,
         selectedItemColor: Colors.white,
         type: BottomNavigationBarType.fixed,
+        showSelectedLabels: false,
+        showUnselectedLabels: false,
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home_rounded),

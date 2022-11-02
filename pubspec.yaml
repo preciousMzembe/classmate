@@ -41,6 +41,8 @@ dependencies:
   hive_flutter: ^1.1.0
   smooth_page_indicator: ^1.0.0
   flutter_colorpicker: ^1.0.3
+  firebase_core: ^2.1.1
+  firebase_analytics: ^10.0.3
 
 dev_dependencies:
   flutter_test:

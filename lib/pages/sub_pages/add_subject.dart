@@ -251,18 +251,21 @@ class _AddSubjectState extends State<AddSubject> {
     );
   }
   renderDaysOfWeek() {
-    return Column(
-      children: [
-        Row(
-          children: [
-            renderItem(text: "Mon", index: 0),
-            renderItem(text: "Tue", index: 1),
-            renderItem(text: "Wed", index: 2),
-            renderItem(text: "Thur", index: 3),
-            renderItem(text: "Fri", index: 4),
-          ],
-        ),
-      ],
+    return SizedBox(
+      width: 300,
+      height: 50,
+      child: GridView.count(
+        crossAxisCount: 5,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
+        children: [
+          renderItem(text: "Mon", index: 0),
+          renderItem(text: "Tue", index: 1),
+          renderItem(text: "Wed", index: 2),
+          renderItem(text: "Thur", index: 3),
+          renderItem(text: "Fri", index: 4),
+        ],
+      ),
     );
   }
 }

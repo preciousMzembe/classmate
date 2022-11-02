@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "177335991231",
+    "project_id": "classmate-28e26",
+    "storage_bucket": "classmate-28e26.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:177335991231:android:8ebbf890229f17ef51ff0a",
+        "android_client_info": {
+          "package_name": "com.todotask.classmate"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "177335991231-keoi60j319fj110q946mcdc3vc1l6jub.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB54e4j9JB-PNLLiIT0Dsq2xW_3qrCBBbY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "177335991231-keoi60j319fj110q946mcdc3vc1l6jub.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -5,10 +5,16 @@ import 'package:classmate/pages/Tutorial.dart';
 import 'package:classmate/pages/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 void main() async {
   await Hive.initFlutter();
   await Hive.openBox("classmatebox");
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
