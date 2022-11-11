@@ -121,25 +121,26 @@ class _AddSubjectState extends State<AddTask> {
                       "done": false,
                     };
           
-                    await _classmatebox.add(data);
+                    await _classmatebox.add(data).then((value) =>
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              content: Text(
+                                "Task Added Successfully",
+                                textAlign: TextAlign.center,
+                                style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
+                              ),
+                              backgroundColor: Colors.white,
+                            );
+                          },
+                        )
+                    ).then((value) => Navigator.pop(context));
                     setState(() {
                       _task.text = "";
                       _date.text = "";
                     });
           
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          content: Text(
-                            "Task Added Successfully",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(color: Colors.blueGrey, fontWeight: FontWeight.bold),
-                          ),
-                          backgroundColor: Colors.white,
-                        );
-                      },
-                    );
                   }
                 },
                 child: ClipRRect(

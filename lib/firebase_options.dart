@@ -50,20 +50,20 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions web = FirebaseOptions(
-    apiKey: 'AIzaSyBglwQ4sWqo9Yu6-8zCdbkfxfU9ZnQnvJM',
-    appId: '1:505902476437:web:006d58c0b0902fe6fa3f9c',
-    messagingSenderId: '505902476437',
-    projectId: 'classmate-692ee',
-    authDomain: 'classmate-692ee.firebaseapp.com',
-    storageBucket: 'classmate-692ee.appspot.com',
-    measurementId: 'G-HLXWZDW2XF',
+    apiKey: 'AIzaSyDyA07q7NjfsnNtTPEWMt88o7tjvYzpuE0',
+    appId: '1:212996273412:web:d21949e45445d419798c51',
+    messagingSenderId: '212996273412',
+    projectId: 'ict-app-dev-cc475',
+    authDomain: 'ict-app-dev-cc475.firebaseapp.com',
+    storageBucket: 'ict-app-dev-cc475.appspot.com',
+    measurementId: 'G-V6H7PLZMLS',
   );
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBC0qT1W7mZlMlHAUWU3_Ro5zVkxrZbLuY',
-    appId: '1:505902476437:android:eaac5f30e4dabe19fa3f9c',
-    messagingSenderId: '505902476437',
-    projectId: 'classmate-692ee',
-    storageBucket: 'classmate-692ee.appspot.com',
+    apiKey: 'AIzaSyAcgv-hQeFm-xlBKmJosaCcX6S0HOQPkCA',
+    appId: '1:212996273412:android:634a21e08606f5b6798c51',
+    messagingSenderId: '212996273412',
+    projectId: 'ict-app-dev-cc475',
+    storageBucket: 'ict-app-dev-cc475.appspot.com',
   );
 }
