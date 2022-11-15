@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "177335991231",
-    "project_id": "classmate-28e26",
-    "storage_bucket": "classmate-28e26.appspot.com"
+    "project_number": "212996273412",
+    "project_id": "ict-app-dev-cc475",
+    "storage_bucket": "ict-app-dev-cc475.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:177335991231:android:8ebbf890229f17ef51ff0a",
+        "mobilesdk_app_id": "1:212996273412:android:634a21e08606f5b6798c51",
         "android_client_info": {
-          "package_name": "com.todotask.classmate"
+          "package_name": "com.todotasklist.classmate"
         }
       },
       "oauth_client": [
         {
-          "client_id": "177335991231-keoi60j319fj110q946mcdc3vc1l6jub.apps.googleusercontent.com",
+          "client_id": "212996273412-pb5og6eja8ppkjnelmnisv1sgb62su1l.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB54e4j9JB-PNLLiIT0Dsq2xW_3qrCBBbY"
+          "current_key": "AIzaSyAcgv-hQeFm-xlBKmJosaCcX6S0HOQPkCA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "177335991231-keoi60j319fj110q946mcdc3vc1l6jub.apps.googleusercontent.com",
+              "client_id": "212996273412-pb5og6eja8ppkjnelmnisv1sgb62su1l.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
