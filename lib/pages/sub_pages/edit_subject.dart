@@ -19,15 +19,24 @@ class _EditSubjectState extends State<EditSubject> {
   final _classmatebox = Hive.box("classmatebox");
   var _subjectInfo = {}; // get subject information using widget.id(key)
 
-  final _timeList = ['1 (8:30-9:45)', '2 (10:00-11:15)', '3 (11:30-12:45)', '4 (1:00-2:15)', '5 (2:30-3:45)', '6 (4:00-5:15)', '7 (5:30-6:45)', '8 (7:00-8:15)'];
+  final _timeList = [
+    '1 (8:30-9:45)',
+    '2 (10:00-11:15)',
+    '3 (11:30-12:45)',
+    '4 (1:00-2:15)',
+    '5 (2:30-3:45)',
+    '6 (4:00-5:15)',
+    '7 (5:30-6:45)',
+    '8 (7:00-8:15)'
+  ];
   List _buttonColor = [false, false, false, false, false];
 
   Color currentColor = Color.fromRGBO(127, 188, 210, 1); //default color
   List<Color> colorHistory = [];
 
-  void changeColor(Color color) => setState((){
-    currentColor = color;
-  });
+  void changeColor(Color color) => setState(() {
+        currentColor = color;
+      });
 
   @override
   void initState() {
@@ -38,16 +47,19 @@ class _EditSubjectState extends State<EditSubject> {
   void getSubjectInfo() {
     setState(() {
       _subjectInfo = _classmatebox.get(widget.id);
-      currentColor = _subjectInfo['color'] != null ? Color(_subjectInfo['color']) : currentColor;
+      currentColor = _subjectInfo['color'] != null
+          ? Color(_subjectInfo['color'])
+          : currentColor;
       getButtonColor();
     });
   }
-  void getButtonColor(){
+
+  void getButtonColor() {
     var buttonName = ["Mon", "Tue", "Wed", "Thur", "Fri"];
     var days = _subjectInfo["dayList"];
-    for(int i=0; i<buttonName.length; i++){
-      for(var item in days){
-        if(item == buttonName[i]){
+    for (int i = 0; i < buttonName.length; i++) {
+      for (var item in days) {
+        if (item == buttonName[i]) {
           setState(() {
             _buttonColor[i] = true;
           });
@@ -57,30 +69,50 @@ class _EditSubjectState extends State<EditSubject> {
   }
 
   void editSubjectDB() async {
-    if(_subjectInfo["dayList"].isEmpty){
+    if (_subjectInfo["dayList"].isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Select Days of Week",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold),),
+        SnackBar(
+          content: Text(
+            "Select Days of Week",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold),
+          ),
           backgroundColor: Colors.blueAccent,
         ),
       );
       return;
     }
     if (_formKey.currentState!.validate()) {
+      // change task subject name ----------------------------------
+      var preSubjectName = _subjectInfo['name'];
 
       _formKey.currentState!.save();
       _subjectInfo['color'] = currentColor.value;
 
-      await _classmatebox.put(widget.id, _subjectInfo).then((value) =>
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text("Subject Added Successfully",
-              textAlign: TextAlign.center,
-              style: TextStyle(fontWeight: FontWeight.bold),),
-              backgroundColor: Color.fromRGBO(127, 188, 250, 1),
-            ),
-          )
-      ).then((value) => Navigator.pop(context));
+      var boxdata = _classmatebox.toMap();
+      for (var key in boxdata.keys) {
+        if (boxdata[key]['title'] == "task") {
+          if (boxdata[key]['subject'] == preSubjectName) {
+            var newData = boxdata[key];
+            newData['subject'] = _subjectInfo['name'];
+            await _classmatebox.put(key, newData);
+          }
+        }
+      }
+
+      await _classmatebox
+          .put(widget.id, _subjectInfo)
+          .then((value) => ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "Subject Added Successfully",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  backgroundColor: Color.fromRGBO(127, 188, 250, 1),
+                ),
+              ))
+          .then((value) => Navigator.pop(context));
     }
   }
 
@@ -88,7 +120,12 @@ class _EditSubjectState extends State<EditSubject> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Edit Subject", style: TextStyle(fontWeight: FontWeight.bold,),),
+        title: Text(
+          "Edit Subject",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         elevation: 0.0,
         backgroundColor: currentColor,
       ),
@@ -96,138 +133,133 @@ class _EditSubjectState extends State<EditSubject> {
         padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
         child: SingleChildScrollView(
             child: Form(
-              key: _formKey,
-              child: Column(
-                children: [
-                  renderDaysOfWeek(),
-                  TextFormField(
-                    initialValue: _subjectInfo["name"],
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'Subject',
-                      labelStyle: TextStyle(
-                        color:Colors.blueGrey,
-                      ),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter a Subject Name';
-                      }
-                      return null;
-                    },
-                    onSaved: (value){
-                      setState(() {
-                        _subjectInfo["name"] = value.toString();
-                      });
-                    },
+          key: _formKey,
+          child: Column(
+            children: [
+              renderDaysOfWeek(),
+              TextFormField(
+                initialValue: _subjectInfo["name"],
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Subject',
+                  labelStyle: TextStyle(
+                    color: Colors.blueGrey,
                   ),
-                  DropdownButtonFormField(
-                      value: _subjectInfo["classTime"].toString(),
-                      hint: Text("Class Time"),
-
-                      items: _timeList.map(
-                              (value){
-                            return DropdownMenuItem(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }
-                      ).toList(),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please Choose Class Time';
-                        }
-                        return null;
-                      },
-                      onChanged: (value){
-                        setState(() {
-                          _subjectInfo["classTime"] = value.toString();
-                        });
-                      }
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please Enter a Subject Name';
+                  }
+                  return null;
+                },
+                onSaved: (value) {
+                  setState(() {
+                    _subjectInfo["name"] = value.toString();
+                  });
+                },
+              ),
+              DropdownButtonFormField(
+                  value: _subjectInfo["classTime"].toString(),
+                  hint: Text("Class Time"),
+                  items: _timeList.map((value) {
+                    return DropdownMenuItem(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please Choose Class Time';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    setState(() {
+                      _subjectInfo["classTime"] = value.toString();
+                    });
+                  }),
+              TextFormField(
+                initialValue: _subjectInfo["place"],
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Place',
+                  labelStyle: TextStyle(
+                    color: Colors.blueGrey,
                   ),
-                  TextFormField(
-                    initialValue: _subjectInfo["place"],
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'Place',
-                      labelStyle: TextStyle(
-                        color:Colors.blueGrey,
-                      ),
-                    ),
-                    onSaved: (value){
-                      setState(() {
-                        _subjectInfo["place"] = value.toString();
-                      });
-                    },
+                ),
+                onSaved: (value) {
+                  setState(() {
+                    _subjectInfo["place"] = value.toString();
+                  });
+                },
+              ),
+              TextFormField(
+                initialValue: _subjectInfo["professor"],
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  labelText: 'Professor',
+                  labelStyle: TextStyle(
+                    color: Colors.blueGrey,
                   ),
-                  TextFormField(
-                    initialValue: _subjectInfo["professor"],
-                    decoration: const InputDecoration(
-                      border: UnderlineInputBorder(),
-                      labelText: 'Professor',
-                      labelStyle: TextStyle(
-                        color:Colors.blueGrey,
-                      ),
-                    ),
-                    onSaved: (value){
-                      setState(() {
-                        _subjectInfo["professor"] = value.toString();
-                      });
-                    },
-                  ),
-                  Container(
-                    padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
-                    alignment: Alignment.center,
-                    child: Palette(
-                      pickerColor: currentColor,
-                      onColorChanged: changeColor,
-                      colorHistory: colorHistory,
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 30, 0, 10),
-                    child: GestureDetector(
-                      onTap: () async {
-                        editSubjectDB();
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(12),
-                        child: Container(
-                          height: 50,
-                          padding: EdgeInsets.all(10),
-                          color: currentColor,
-                          child: Center(
-                              child: Text("SAVE", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),),
-                          ),
+                ),
+                onSaved: (value) {
+                  setState(() {
+                    _subjectInfo["professor"] = value.toString();
+                  });
+                },
+              ),
+              Container(
+                padding: const EdgeInsets.fromLTRB(10, 30, 10, 0),
+                alignment: Alignment.center,
+                child: Palette(
+                  pickerColor: currentColor,
+                  onColorChanged: changeColor,
+                  colorHistory: colorHistory,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0, 30, 0, 10),
+                child: GestureDetector(
+                  onTap: () async {
+                    editSubjectDB();
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(12),
+                    child: Container(
+                      height: 50,
+                      padding: EdgeInsets.all(10),
+                      color: currentColor,
+                      child: Center(
+                        child: Text(
+                          "SAVE",
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, color: Colors.white),
                         ),
                       ),
                     ),
                   ),
-                ],
+                ),
               ),
-            )
-        ),
+            ],
+          ),
+        )),
       ),
     );
   }
 
-  renderItem({
-    required String text,
-    required int index
-  }){
-
+  renderItem({required String text, required int index}) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(5,5,5,5),
+      padding: const EdgeInsets.fromLTRB(5, 5, 5, 5),
       child: GestureDetector(
-        onTap: (){
+        onTap: () {
           setState(() {
             _buttonColor[index] = !_buttonColor[index];
-            if(_buttonColor[index]){
-              if(!_subjectInfo["dayList"].contains(text)){
+            if (_buttonColor[index]) {
+              if (!_subjectInfo["dayList"].contains(text)) {
                 _subjectInfo["dayList"].add(text);
               }
-            }else{
-              if(_subjectInfo["dayList"].contains(text)){
+            } else {
+              if (_subjectInfo["dayList"].contains(text)) {
                 _subjectInfo["dayList"].remove(text);
               }
             }
@@ -243,7 +275,10 @@ class _EditSubjectState extends State<EditSubject> {
             child: Center(
               child: Text(
                 text,
-                style: TextStyle(fontSize:16, fontWeight: FontWeight.bold, color: Colors.blueGrey),
+                style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.blueGrey),
               ),
             ),
           ),
@@ -251,6 +286,7 @@ class _EditSubjectState extends State<EditSubject> {
       ),
     );
   }
+
   renderDaysOfWeek() {
     return Column(
       children: [

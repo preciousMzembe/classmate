@@ -16,11 +16,11 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
   static FirebaseAnalyticsObserver observer =
-  FirebaseAnalyticsObserver(analytics: analytics);
+      FirebaseAnalyticsObserver(analytics: analytics);
 
   Future<void> _sendAnalyticsEvent() async {
-    await analytics.logEvent(
-      name: 'add_subject',
+    await FirebaseAnalytics.instance.logEvent(
+      name: "select_content",
       parameters: null,
     );
   }
@@ -79,24 +79,25 @@ class _HomeState extends State<Home> {
           borderRadius: BorderRadius.circular(12),
           child: Container(
             decoration: BoxDecoration(
-              color: subject['color'] != null ? Color(subject['color']) : main_color,
+              color: subject['color'] != null
+                  ? Color(subject['color'])
+                  : main_color,
               borderRadius: BorderRadius.circular(12),
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.shade500,
-                  offset: Offset(4,4),
+                  offset: Offset(4, 4),
                   blurRadius: 15,
                   spreadRadius: 1,
                 ),
                 BoxShadow(
                   color: Colors.white,
-                  offset: Offset(-4,-4),
+                  offset: Offset(-4, -4),
                   blurRadius: 15,
                   spreadRadius: 1,
                 ),
               ],
             ),
-
             padding: EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -157,34 +158,47 @@ class _HomeState extends State<Home> {
               ),
 
               // List of all subjects
-              _subjects.isNotEmpty ? GridView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 1.0,
-                  mainAxisSpacing: 20.0,
-                  crossAxisSpacing: 20.0,
-                ),
-                itemCount: _subjects.length,
-                itemBuilder: (context, index) {
-                  return subject(_subjects[index]);
-                },
-              ):
-              Container(
-                color: Colors.transparent,
-                alignment: Alignment.center,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 20,
+              _subjects.isNotEmpty
+                  ? GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2,
+                        childAspectRatio: 1.0,
+                        mainAxisSpacing: 20.0,
+                        crossAxisSpacing: 20.0,
+                      ),
+                      itemCount: _subjects.length,
+                      itemBuilder: (context, index) {
+                        return subject(_subjects[index]);
+                      },
+                    )
+                  : Container(
+                      color: Colors.transparent,
+                      alignment: Alignment.center,
+                      child: Column(
+                        children: [
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Icon(
+                            Icons.book_rounded,
+                            size: 50,
+                            color: Colors.grey[400],
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "ADD YOUR SUBJECT",
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey[400]),
+                            textAlign: TextAlign.center,
+                          ),
+                        ],
+                      ),
                     ),
-                    Icon(Icons.book_rounded,size: 50,color: Colors.grey[400],),
-                    SizedBox(height: 10,),
-                    Text("ADD YOUR SUBJECT", style: TextStyle(fontWeight: FontWeight.bold, color: Colors.grey[400]),textAlign: TextAlign.center,),
-                  ],
-                ),
-              ),
               SizedBox(
                 height: 20,
               ),
@@ -348,7 +362,7 @@ class _HomeState extends State<Home> {
       floatingActionButton: Container(
         width: MediaQuery.of(context).size.width * 0.70,
         decoration: BoxDecoration(
-          borderRadius:  BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(20.0),
         ),
         child: FloatingActionButton.extended(
           backgroundColor: Color.fromRGBO(127, 188, 250, 1),
@@ -362,10 +376,12 @@ class _HomeState extends State<Home> {
             getSubjects();
           },
           elevation: 0,
-          label: Icon(Icons.add, color: Colors.white,),
+          label: Icon(
+            Icons.add,
+            color: Colors.white,
+          ),
 
-              // color: Colors.white
-
+          // color: Colors.white
 
           // icon: Icon(
           //   Icons.add,
