@@ -6,15 +6,21 @@ import 'package:classmate/pages/wrapper.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'firebase_options.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+
+int? isViewed;
 
 void main() async {
   await Hive.initFlutter();
   await Hive.openBox("classmatebox");
   WidgetsFlutterBinding.ensureInitialized();
-
   await Firebase.initializeApp();
+
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  isViewed = prefs.getInt("onBoard");
+
   runApp(const MyApp());
 }
 
@@ -29,7 +35,7 @@ class MyApp extends StatelessWidget {
         accentColor: Color.fromRGBO(127, 188, 250, 1),
       ),
       debugShowCheckedModeBanner: false,
-      home: Tutorial(),
+      home: isViewed != 0 ? Tutorial() : Wrapper(),
     );
   }
 }
