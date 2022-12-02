@@ -351,10 +351,16 @@ class _SubjectState extends State<Subject> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            editTask(_tasks[index]['id']);
+                            if (!_tasks[index]['done']) {
+                              editTask(_tasks[index]['id']);
+                            }
                           },
-                          child: Icon(Icons.edit,
-                              color: Color.fromRGBO(255, 192, 144, 1)),
+                          child: Icon(
+                            Icons.edit,
+                            color: _tasks[index]['done']
+                                ? Colors.grey
+                                : Color.fromRGBO(255, 192, 144, 1),
+                          ),
                         ),
                         // delete ------------------
                         SizedBox(
