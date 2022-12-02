@@ -334,6 +334,25 @@ class _SubjectState extends State<Subject> {
                     color: Colors.transparent,
                     child: Row(
                       children: [
+                        Checkbox(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          checkColor: Color.fromRGBO(127, 188, 250, 1),
+                          activeColor: Color.fromRGBO(127, 188, 250, 1),
+                          value: _tasks[index]['done'],
+                          onChanged: (bool? value) {
+                            // change and fetch events
+                            var data = _tasks[index];
+                            data['done'] = !data['done'];
+                            // print(data);
+                            var boxData = _classmatebox.get(data['id']);
+                            boxData['done'] = data['done'];
+                            // print(boxData);
+
+                            _classmatebox.put(data['id'], boxData);
+                            getTasks();
+                          },
+                        ),
                         Expanded(
                           child: Text(
                             "${_tasks[index]['name']}",
