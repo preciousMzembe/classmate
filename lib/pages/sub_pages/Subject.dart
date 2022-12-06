@@ -34,6 +34,7 @@ class _SubjectState extends State<Subject> {
         var task = {
           "id": key,
           "name": boxdata[key]['name'],
+          "done": boxdata[key]['done'],
         };
         tempData.add(task);
       }
@@ -78,7 +79,8 @@ class _SubjectState extends State<Subject> {
               title: const Text(
                 'Are You Sure You Want To Delete',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontWeight: FontWeight.bold, color:Colors.blueGrey),
+                style: TextStyle(
+                    fontWeight: FontWeight.bold, color: Colors.blueGrey),
               ),
               content: SingleChildScrollView(
                 child: ListBody(
@@ -86,7 +88,8 @@ class _SubjectState extends State<Subject> {
                     Text(
                       subjectInfo["name"].toString(),
                       textAlign: TextAlign.center,
-                      style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey),
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.blueGrey),
                     ),
                     SizedBox(
                       height: 10,
@@ -96,13 +99,28 @@ class _SubjectState extends State<Subject> {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('DELETE', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.blueGrey),textAlign: TextAlign.center,),
-                  onPressed: () {
-                    _classmatebox.delete(widget.id).then((value) =>
-                        Navigator.of(context).pop()
-                    ).then((value) =>
-                        Navigator.of(context).pop()
-                    );
+                  child: const Text(
+                    'DELETE',
+                    style: TextStyle(
+                        fontWeight: FontWeight.bold, color: Colors.blueGrey),
+                    textAlign: TextAlign.center,
+                  ),
+                  onPressed: () async {
+                    // delete tasks
+                    var boxdata = _classmatebox.toMap();
+                    for (var key in boxdata.keys) {
+                      if (boxdata[key]['title'] == "task") {
+                        if (boxdata[key]['subject'] == subjectInfo['name']) {
+                          await _classmatebox.delete(key);
+                        }
+                      }
+                    }
+
+                    // delete subject
+                    _classmatebox
+                        .delete(widget.id)
+                        .then((value) => Navigator.of(context).pop())
+                        .then((value) => Navigator.of(context).pop());
                   },
                 ),
               ],
@@ -118,9 +136,7 @@ class _SubjectState extends State<Subject> {
               title: const Text(
                 'Are you sure you want\nto delete the task?',
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  color: Colors.blueGrey
-                ),
+                    fontWeight: FontWeight.bold, color: Colors.blueGrey),
                 textAlign: TextAlign.center,
               ),
               content: SingleChildScrollView(
@@ -130,9 +146,8 @@ class _SubjectState extends State<Subject> {
                       "$name",
                       textAlign: TextAlign.center,
                       style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          color: Color.fromRGBO(127, 188, 250, 1),
-
+                        fontWeight: FontWeight.bold,
+                        color: Color.fromRGBO(127, 188, 250, 1),
                       ),
                     ),
                     SizedBox(
@@ -143,7 +158,8 @@ class _SubjectState extends State<Subject> {
               ),
               actions: <Widget>[
                 TextButton(
-                  child: const Text('DELETE',
+                  child: const Text(
+                    'DELETE',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Color.fromRGBO(245, 148, 148, 1),
@@ -151,9 +167,9 @@ class _SubjectState extends State<Subject> {
                     textAlign: TextAlign.center,
                   ),
                   onPressed: () {
-                    _classmatebox.delete(id).then((value) =>
-                        Navigator.of(context).pop()
-                    );
+                    _classmatebox
+                        .delete(id)
+                        .then((value) => Navigator.of(context).pop());
                   },
                 ),
               ],
@@ -178,21 +194,28 @@ class _SubjectState extends State<Subject> {
     return Scaffold(
       // app bar
       appBar: AppBar(
-        title: Text("${subjectInfo['name']}", style: TextStyle(fontWeight: FontWeight.bold),),
+        title: Text(
+          "${subjectInfo['name']}",
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         backgroundColor: Color.fromRGBO(127, 188, 250, 1),
         elevation: 0.0,
         actions: [
           PopupMenuButton(
-            onSelected: (value) async{
+            onSelected: (value) async {
               if (value == 0) {
                 // move to edit subject
-                await Navigator.of(context).push(
+                await Navigator.of(context)
+                    .push(
                   MaterialPageRoute(
                     builder: (context) => EditSubject(
                       id: widget.id,
                     ),
                   ),
-                );
+                )
+                    .then((value) {
+                  getSubjectInfo();
+                });
               } else {
                 // show alert dialog before delete
                 alertDeleteSubject(context);
@@ -201,23 +224,24 @@ class _SubjectState extends State<Subject> {
             itemBuilder: (context) => [
               PopupMenuItem(
                 value: 0,
-                child: Text("EDIT",
-                    style:TextStyle(color: Color.fromRGBO(255, 192, 144, 1),
+                child: Text(
+                  "EDIT",
+                  style: TextStyle(
+                      color: Color.fromRGBO(255, 192, 144, 1),
                       fontWeight: FontWeight.bold,
-                      fontSize: 13
-                    ),
+                      fontSize: 13),
                   textAlign: TextAlign.center,
                 ),
               ),
               PopupMenuItem(
                 value: 1,
-                child: Text("DELETE",
+                child: Text(
+                  "DELETE",
                   style: TextStyle(
-                    color: Color.fromRGBO(245, 148, 148, 1),
-                    fontWeight: FontWeight.bold,
-                      fontSize: 13
-                  ),
-                textAlign: TextAlign.center,
+                      color: Color.fromRGBO(245, 148, 148, 1),
+                      fontWeight: FontWeight.bold,
+                      fontSize: 13),
+                  textAlign: TextAlign.center,
                 ),
               ),
             ],
@@ -239,9 +263,8 @@ class _SubjectState extends State<Subject> {
                 width: 1,
                 color: Colors.white24,
               ),
-              borderRadius: BorderRadius.all(
-                  Radius.circular(5.0) // POINT
-              ),
+              borderRadius: BorderRadius.all(Radius.circular(5.0) // POINT
+                  ),
             ),
             child: Row(
               children: [
@@ -311,11 +334,34 @@ class _SubjectState extends State<Subject> {
                     color: Colors.transparent,
                     child: Row(
                       children: [
+                        Checkbox(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(10)),
+                          checkColor: Color.fromRGBO(127, 188, 250, 1),
+                          activeColor: Color.fromRGBO(127, 188, 250, 1),
+                          value: _tasks[index]['done'],
+                          onChanged: (bool? value) {
+                            // change and fetch events
+                            var data = _tasks[index];
+                            data['done'] = !data['done'];
+                            // print(data);
+                            var boxData = _classmatebox.get(data['id']);
+                            boxData['done'] = data['done'];
+                            // print(boxData);
+
+                            _classmatebox.put(data['id'], boxData);
+                            getTasks();
+                          },
+                        ),
                         Expanded(
                           child: Text(
                             "${_tasks[index]['name']}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
+                            style: TextStyle(
+                                decoration: _tasks[index]['done']
+                                    ? TextDecoration.lineThrough
+                                    : TextDecoration.none),
                           ),
                         ),
                         // edit --------------------
@@ -324,9 +370,16 @@ class _SubjectState extends State<Subject> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            editTask(_tasks[index]['id']);
+                            if (!_tasks[index]['done']) {
+                              editTask(_tasks[index]['id']);
+                            }
                           },
-                          child: Icon(Icons.edit, color: Color.fromRGBO(255, 192, 144, 1)),
+                          child: Icon(
+                            Icons.edit,
+                            color: _tasks[index]['done']
+                                ? Colors.grey
+                                : Color.fromRGBO(255, 192, 144, 1),
+                          ),
                         ),
                         // delete ------------------
                         SizedBox(
@@ -337,7 +390,8 @@ class _SubjectState extends State<Subject> {
                             deleteTask(
                                 _tasks[index]['id'], _tasks[index]['name']);
                           },
-                          child: Icon(Icons.delete, color: Color.fromRGBO(245, 148, 148, 1)),
+                          child: Icon(Icons.delete,
+                              color: Color.fromRGBO(245, 148, 148, 1)),
                         ),
                       ],
                     ),
