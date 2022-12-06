@@ -1,8 +1,32 @@
 // ignore_for_file: file_names, prefer_const_constructors, prefer_const_literals_to_create_immutables, non_constant_identifier_names
 
+import 'package:classmate/pages/sub_pages/subject_timetable.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:classmate/pages/sub_pages/palette.dart';
+
+class Timetable{
+  final daysOfWeek = ['Mon', "Tue", "Wed", "Thur", 'Fri'];
+  final timeList = ['1 (8:30-9:45)', '2 (10:00-11:15)', '3 (11:30-12:45)', '4 (1:00-2:15)', '5 (2:30-3:45)', '6 (4:00-5:15)', '7 (5:30-6:45)', '8 (7:00-8:15)'];
+
+  String showInfo(int col, int row){
+    return "${getDays(col)} ${getTime(row)}";
+  }
+  String getDays(int index){
+    if(index < daysOfWeek.length && index > 0) {
+      return daysOfWeek[--index];
+    } else {
+      return "Invalid Input";
+    }
+  }
+  String getTime(int index){
+    if(index < timeList.length && index > 0) {
+      return timeList[--index];
+    } else {
+      return "Invalid Input";
+    }
+  }
+}
 
 class AddSubject extends StatefulWidget {
   const AddSubject({super.key});
@@ -17,16 +41,21 @@ class _AddSubjectState extends State<AddSubject> {
 
   final _formKey = GlobalKey<FormState>();
 
-  final _timeList = ['1 (8:30-9:45)', '2 (10:00-11:15)', '3 (11:30-12:45)', '4 (1:00-2:15)', '5 (2:30-3:45)', '6 (4:00-5:15)', '7 (5:30-6:45)', '8 (7:00-8:15)'];
-  List _buttonColor = [false, false, false, false, false];
-
   // data
   bool _check = true; // check duplicate subject name
   late String _subjectName;
   late String _place;
   late String _professor;
-  late String _classTime;
-  List<String> _dayList= [];
+
+  Timetable t = Timetable();
+  List<List<int>> timetable = [];
+  List<String> timetable_msg = [];
+  @override
+  void initState() {
+    super.initState();
+    timetable = List.generate(6, (i) => List.filled(9,  0,growable: false), growable: false);
+  }
+
   int _color = Color.fromRGBO(127, 188, 210, 1).value;
 
   Color currentColor = Color.fromRGBO(127, 188, 210, 1); //default color
@@ -38,16 +67,6 @@ class _AddSubjectState extends State<AddSubject> {
   });
 
   void addSubjectDB() async {
-    if(_dayList.isEmpty){
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Select Days of Week",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold),),
-          backgroundColor: Colors.blueAccent,
-        ),
-      );
-      return;
-    }
     if (_formKey.currentState!.validate()) {
 
       _formKey.currentState!.save();
@@ -57,9 +76,10 @@ class _AddSubjectState extends State<AddSubject> {
         "name": _subjectName,
         "place": _place,
         "professor": _professor,
-        "classTime": _classTime,
-        "dayList": _dayList,
+        // "classTime": _classTime,
+        // "dayList": _dayList,
         "color": _color,
+        "timetable": timetable,
       };
       await _classmatebox.add(data).then((value) =>
           ScaffoldMessenger.of(context).showSnackBar(
@@ -99,7 +119,66 @@ class _AddSubjectState extends State<AddSubject> {
               key: _formKey,
               child: Column(
                 children: [
-                  renderDaysOfWeek(),
+                  OutlinedButton.icon(
+                    onPressed: () {
+                      showModalBottomSheet<void>(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return SingleChildScrollView(
+                            child: Center(
+                              child: Column(
+                                children: <Widget>[
+                                  SizedBox(
+                                      width: 300,
+                                      height: 600,
+                                      child: SubjectTimetable(
+                                        select: true,
+                                        data: _classmatebox.toMap(),
+                                        timetable: timetable,
+                                        id: 0,
+                                      )
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ).then((value){
+                        for (var list in timetable) {
+                          var col = timetable.indexOf(list);
+
+                          for (var row=0; row<list.length; row++) {
+                            String info;
+                            info = "${t.getDays(col)} ${t.getTime(row)}";
+
+                            // save timetable information
+                            if(list[row] == 1){
+                              if(!timetable_msg.contains(info)) {
+                                setState(() {
+                                  timetable_msg.add(info);
+                                });
+                              }
+                            }
+                            else{
+                              if(timetable_msg.contains(info)) {
+                                int index = timetable_msg.indexOf(info);
+                                setState(() {
+                                  timetable_msg.removeAt(index);
+                                });
+                              }
+                            }
+                          }
+                        }
+                      });
+                    },
+                    icon: Icon(Icons.add, size: 18),
+                    label: Text(
+                        "Choose class time",
+                        textAlign: TextAlign.left,
+                    ),
+                  ),
+                  renderClassTimeText(),
+                  // renderDaysOfWeek(),
                   TextFormField(
                     decoration: const InputDecoration(
                       border: UnderlineInputBorder(),
@@ -123,28 +202,6 @@ class _AddSubjectState extends State<AddSubject> {
                         _subjectName = value.toString();
                       });
                     },
-                  ),
-                  DropdownButtonFormField(
-                      hint: Text("Class Time", style: TextStyle(color: Colors.blueGrey),),
-                      items: _timeList.map(
-                              (value){
-                            return DropdownMenuItem(
-                              value: value,
-                              child: Text(value),
-                            );
-                          }
-                      ).toList(),
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please Choose Class Time';
-                        }
-                        return null;
-                      },
-                      onChanged: (value){
-                        setState(() {
-                          _classTime = value.toString();
-                        });
-                      }
                   ),
                   TextFormField(
                     decoration: const InputDecoration(
@@ -209,63 +266,12 @@ class _AddSubjectState extends State<AddSubject> {
       ),
     );
   }
-
-  renderItem({
-    required String text,
-    required int index
-  }){
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(5,5,5,5),
-      child: GestureDetector(
-        onTap: (){
-          setState(() {
-            _buttonColor[index] = !_buttonColor[index];
-            if(_buttonColor[index]){
-              if(!_dayList.contains(text)){
-                _dayList.add(text);
-              }
-            }else{
-              if(_dayList.contains(text)){
-                _dayList.remove(text);
-              }
-            }
-          });
-        },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12),
-          child: Container(
-            height: 50,
-            width: 60,
-            padding: EdgeInsets.all(5),
-            color: _buttonColor[index] ? currentColor : Colors.transparent,
-            child: Center(
-              child: Text(
-                text,
-                style: TextStyle(fontSize:16, fontWeight: FontWeight.bold, color: Colors.blueGrey),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-  renderDaysOfWeek() {
-    return SizedBox(
-      width: 300,
-      height: 50,
-      child: GridView.count(
-        crossAxisCount: 5,
-        crossAxisSpacing: 5,
-        mainAxisSpacing: 5,
+  renderClassTimeText() {
+    return Column(
         children: [
-          renderItem(text: "Mon", index: 0),
-          renderItem(text: "Tue", index: 1),
-          renderItem(text: "Wed", index: 2),
-          renderItem(text: "Thur", index: 3),
-          renderItem(text: "Fri", index: 4),
+        for(int i=0; i<timetable_msg.length; i++)
+          Text(timetable_msg[i]),
         ],
-      ),
     );
   }
 }
