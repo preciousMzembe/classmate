@@ -122,25 +122,17 @@ class _AddSubjectState extends State<AddSubject> {
                   OutlinedButton.icon(
                     onPressed: () {
                       showModalBottomSheet<void>(
+                        isScrollControlled: true,
                         context: context,
                         builder: (BuildContext context) {
-                          return SingleChildScrollView(
-                            child: Center(
-                              child: Column(
-                                children: <Widget>[
-                                  SizedBox(
-                                      width: 300,
-                                      height: 600,
-                                      child: SubjectTimetable(
-                                        select: true,
-                                        data: _classmatebox.toMap(),
-                                        timetable: timetable,
-                                        id: 0,
-                                      )
-                                  ),
-                                ],
-                              ),
-                            ),
+                          return SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.8,
+                              child: SubjectTimetable(
+                                select: true,
+                                data: _classmatebox.toMap(),
+                                timetable: timetable,
+                                id: 0,
+                              )
                           );
                         },
                       ).then((value){

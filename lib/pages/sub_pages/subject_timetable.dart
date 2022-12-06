@@ -106,7 +106,7 @@ class _SubjectTimetableState extends State<SubjectTimetable> {
                         )),
                     child: ElevatedButton(
                       style: ButtonStyle(
-                        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey),
+                        backgroundColor: MaterialStateProperty.all<Color>(Colors.grey)
                       ),
                       child: Container(
                       ),
@@ -129,7 +129,41 @@ class _SubjectTimetableState extends State<SubjectTimetable> {
           for(var element in widget.data.values){
             if(element.containsKey("timetable")){
               var et = element["timetable"];
-              if(et[c][r]>0 && element.containsKey(widget.id)){
+              if(et[c][r]>0){
+                // if(element.containsKey(widget.id)){
+                if(widget.data[widget.id] == element){
+                  return InkWell(
+                      child: GridTile(
+                        child: Container(
+                          margin: EdgeInsets.all(3),
+                          padding: EdgeInsets.all(3),
+                          alignment: Alignment.center,
+                          decoration:BoxDecoration(
+                              color: Colors.grey[200],
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(10),
+                              )),
+                          child: ElevatedButton(
+                            style: ButtonStyle(
+                              backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+                            ),
+                            child: Container(
+                            ),
+                            onPressed: (){
+                              setState(() {
+                                if(widget.timetable[c][r] == 1) {
+                                  widget.timetable[c][r] = 0;
+                                } else {
+                                  widget.timetable[c][r] = 1;
+                                }
+                              });
+
+                            },
+                          ),
+                        ),
+                      )
+                  );
+                }
                 return InkWell(
                   child: GridTile(
                     child: widget.select == false ?
