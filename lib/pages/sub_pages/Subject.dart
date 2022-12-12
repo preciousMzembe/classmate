@@ -5,6 +5,7 @@ import 'package:classmate/pages/sub_pages/edit_subject.dart';
 import 'package:classmate/pages/sub_pages/task_rename.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 class Subject extends StatefulWidget {
   final int id;
@@ -42,6 +43,17 @@ class _SubjectState extends State<Subject> {
     setState(() {
       _tasks = tempData;
     });
+  }
+
+  static FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+  static FirebaseAnalyticsObserver observer =
+      FirebaseAnalyticsObserver(analytics: analytics);
+
+  Future<void> _sendAnalyticsEvent() async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: "add_task",
+      parameters: null,
+    );
   }
 
   @override
@@ -405,7 +417,8 @@ class _SubjectState extends State<Subject> {
 
       // add subject button
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
+        onPressed: () async {
+          await _sendAnalyticsEvent();
           addTaskSheet();
         },
         child: Icon(

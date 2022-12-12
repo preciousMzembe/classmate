@@ -52,10 +52,9 @@ class _CalendarState extends State<Calendar> {
       dayEvents = getSelectedDay(_selectedDay);
     });
 
-    DateTime date = DateTime.parse(
-        DateFormat("yyyy-MM-dd").format(_selectedDay));
-    date = DateTime.parse(
-        DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(date));
+    DateTime date =
+        DateTime.parse(DateFormat("yyyy-MM-dd").format(_selectedDay));
+    date = DateTime.parse(DateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").format(date));
     setState(() {
       dayEvents = getSelectedDay(date);
     });
@@ -161,7 +160,11 @@ class _CalendarState extends State<Calendar> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text("${dayEvents[index][1]}"),
+                              Text("${dayEvents[index][1]}",
+                                  style: TextStyle(
+                                      decoration: dayEvents[index][2]
+                                          ? TextDecoration.lineThrough
+                                          : TextDecoration.none)),
                               Checkbox(
                                 checkColor: Color.fromRGBO(127, 188, 250, 1),
                                 activeColor: Color.fromRGBO(127, 188, 250, 1),
