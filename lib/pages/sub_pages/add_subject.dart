@@ -32,6 +32,7 @@ class Timetable {
   }
 
   String getTime(int index) {
+    index--;
     if (index < timeList.length && index > 0) {
       return timeList[index];
     } else {

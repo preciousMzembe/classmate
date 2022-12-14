@@ -3,6 +3,7 @@
 import 'package:classmate/pages/Home.dart';
 import 'package:classmate/pages/Tutorial.dart';
 import 'package:classmate/pages/wrapper.dart';
+import 'package:firebase_remote_config/firebase_remote_config.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,6 +21,31 @@ void main() async {
 
   SharedPreferences prefs = await SharedPreferences.getInstance();
   isViewed = prefs.getInt("onBoard");
+
+  final remoteConfig = FirebaseRemoteConfig.instance;
+  await remoteConfig.setConfigSettings(RemoteConfigSettings(
+    fetchTimeout: const Duration(minutes: 1),
+    minimumFetchInterval: const Duration(seconds: 0),
+  ));
+
+  // final defaults = <String, dynamic>{"name": '0.0'};
+  // await remoteConfig.setDefaults(defaults);
+
+  await remoteConfig.fetchAndActivate();
+  // .whenComplete(() {
+  //   print("${remoteConfig.getAll()}----------------------");
+  //   print("${remoteConfig.getString("name")}----------------------");
+  // });
+
+  // await remoteConfig.fetchAndActivate().then((value) {
+  if (remoteConfig.getString("vs").isEmpty) {
+    print("not found -------------------------------------------------");
+  } else {
+    print("${remoteConfig.getString('vs')}----------------------");
+  }
+
+  //   print("done ----------------------------------------");
+  // });
 
   runApp(const MyApp());
 }
