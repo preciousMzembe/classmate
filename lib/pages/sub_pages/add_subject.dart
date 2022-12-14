@@ -33,7 +33,7 @@ class Timetable {
 
   String getTime(int index) {
     index--;
-    if (index < timeList.length && index > 0) {
+    if (index < timeList.length) {
       return timeList[index];
     } else {
       return "Invalid Input";

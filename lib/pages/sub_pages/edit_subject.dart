@@ -138,23 +138,34 @@ class _EditSubjectState extends State<EditSubject> {
 
                       for (var row = 0; row < list.length; row++) {
                         String info;
-                        info = "${t.getDays(col)} ${t.getTime(row)}";
+                        info = t.showInfo(col, row);
 
                         // save timetable information
-                        if (list[row] == 1) {
-                          if (!timetable_msg.contains(info)) {
-                            setState(() {
-                              timetable_msg.add(info);
-                            });
-                          }
-                        } else {
-                          if (timetable_msg.contains(info)) {
-                            int index = timetable_msg.indexOf(info);
-                            setState(() {
-                              timetable_msg.removeAt(index);
-                            });
-                          }
+                        if (!timetable_msg.contains(info)) {
+                          setState(() {
+                            timetable_msg.add(info);
+                          });
                         }
+                        else{
+                          int index = timetable_msg.indexOf(info);
+                          setState(() {
+                            timetable_msg.removeAt(index);
+                          });
+                        }
+                        // if (list[row] == 1) {
+                        //   if (!timetable_msg.contains(info)) {
+                        //     setState(() {
+                        //       timetable_msg.add(info);
+                        //     });
+                        //   }
+                        // } else {
+                        //   if (timetable_msg.contains(info)) {
+                        //     int index = timetable_msg.indexOf(info);
+                        //     setState(() {
+                        //       timetable_msg.removeAt(index);
+                        //     });
+                        //   }
+                        // }
                       }
                     }
                   });
@@ -284,6 +295,7 @@ class Timetable {
   }
 
   String getDays(int index) {
+    //index--;
     if (index < daysOfWeek.length && index > 0) {
       return daysOfWeek[--index];
     } else {
@@ -292,7 +304,7 @@ class Timetable {
   }
 
   String getTime(int index) {
-    if (index < timeList.length && index > 0) {
+    if (index < timeList.length) {
       return timeList[--index];
     } else {
       return "Invalid Input";
