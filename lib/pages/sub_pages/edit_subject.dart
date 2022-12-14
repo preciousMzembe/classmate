@@ -140,32 +140,20 @@ class _EditSubjectState extends State<EditSubject> {
                         String info;
                         info = t.showInfo(col, row);
 
-                        // save timetable information
-                        if (!timetable_msg.contains(info)) {
-                          setState(() {
-                            timetable_msg.add(info);
-                          });
+                        if (list[row] == 1) {
+                          if (!timetable_msg.contains(info)) {
+                            setState(() {
+                              timetable_msg.add(info);
+                            });
+                          }
+                        } else {
+                          if (timetable_msg.contains(info)) {
+                            int index = timetable_msg.indexOf(info);
+                            setState(() {
+                              timetable_msg.removeAt(index);
+                            });
+                          }
                         }
-                        else{
-                          int index = timetable_msg.indexOf(info);
-                          setState(() {
-                            timetable_msg.removeAt(index);
-                          });
-                        }
-                        // if (list[row] == 1) {
-                        //   if (!timetable_msg.contains(info)) {
-                        //     setState(() {
-                        //       timetable_msg.add(info);
-                        //     });
-                        //   }
-                        // } else {
-                        //   if (timetable_msg.contains(info)) {
-                        //     int index = timetable_msg.indexOf(info);
-                        //     setState(() {
-                        //       timetable_msg.removeAt(index);
-                        //     });
-                        //   }
-                        // }
                       }
                     }
                   });
